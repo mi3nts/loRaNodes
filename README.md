@@ -1,1 +1,1 @@
-# loraNodes
+# loRaNodes
