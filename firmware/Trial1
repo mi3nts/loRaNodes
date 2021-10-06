@@ -80,7 +80,9 @@ void setup()
 
   SerialUSB.println("Starting Join");
   while(!lora.setOTAAJoin(JOIN, 10));
-
+  // bool loraStatus = lora.setOTAAJoin(JOIN);
+  // SerialUSB.print("Status: ");
+  // SerialUSB.print(loraStatus);
 
   SerialUSB.println("Setup Complete");
 
