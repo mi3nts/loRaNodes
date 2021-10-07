@@ -1,3 +1,5 @@
+// Code adopted and modified from https://github.com/PieraSystems/7100-I2C-example
+
 #include "Arduino.h"
 #include "Wire.h"
 

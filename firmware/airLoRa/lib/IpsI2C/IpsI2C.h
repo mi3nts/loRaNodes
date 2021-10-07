@@ -1,3 +1,6 @@
+// Code adopted and modified from https://github.com/PieraSystems/7100-I2C-example
+
+
 #pragma once
 
 #include<vector>
