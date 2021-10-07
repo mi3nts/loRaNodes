@@ -90,4 +90,87 @@ void readSCD30Mints(){
 }
 
 
+// // IPS7100 ---------------------------------------
+bool initializeIPS7100Mints(){
+    // ips_sensor.begin();
+    SerialUSB.println("IPS7100 Initiated");
+   return true;
+}
+
+void readIPS7100Mints(){
+
+delay(1000);
+  // Enable debugging
+   SerialUSB.println("+--------------------------+");
+   SerialUSB.println("Setting Debug to true");
+   ips_sensor.setDebug(true);
+   delay(1100);
+
+// //  Print sensor status
+   SerialUSB.println("+--------------------------+");
+  SerialUSB.println("Reading Status");
+  SerialUSB.print("Status: ");
+  int status = ips_sensor.getStatus();
+  SerialUSB.println(status);
+
+  delay(1100);
+   SerialUSB.println("+--------------------------+");
+  SerialUSB.println("Reading VREF");
+  int vref = ips_sensor.getVref();
+  SerialUSB.print("VREF: ");
+  SerialUSB.println(vref);
+  delay(1100);
+
+   SerialUSB.println("+--------------------------+");
+  SerialUSB.println("Running Update PM Command");
+  ips_sensor.updatePM();
+
+
+  // Print PM1.0 via USB serial
+  SerialUSB.print("PM 0.1: ");
+  SerialUSB.println(ips_sensor.getPM01());
+  // Print PM1.0 via USB serial
+  SerialUSB.print("PM 0.3: ");
+  SerialUSB.println(ips_sensor.getPM03());
+  // Print PM1.0 via USB serial
+  SerialUSB.print("PM 0.5: ");
+  SerialUSB.println(ips_sensor.getPM05());
+  // Print PM1.0 via USB serial
+  SerialUSB.print("PM 1.0: ");
+  SerialUSB.println(ips_sensor.getPM10());
+  // Print PM2.5 via USB serial
+  SerialUSB.print("PM 2.5: ");
+  SerialUSB.println(ips_sensor.getPM25());
+  // Print PM10 via USB serial
+  SerialUSB.print("PM 10: ");
+  SerialUSB.println(ips_sensor.getPM100());
+ 
+  delay(1100);
+   SerialUSB.println("+--------------------------+");
+  SerialUSB.println("Running Update PC Command");
+  ips_sensor.updatePC();
+
+  // Print PM1.0 via USB serial
+  SerialUSB.print("PC 0.1: ");
+  SerialUSB.println(ips_sensor.getPC01());
+  // Print PM1.0 via USB serial
+  SerialUSB.print("PC 0.3: ");
+  SerialUSB.println(ips_sensor.getPC03());
+  // Print PM1.0 via USB serial
+  SerialUSB.print("PC 0.5: ");
+  SerialUSB.println(ips_sensor.getPC05());
+  // Print PM1.0 via USB serial
+  SerialUSB.print("PC 1.0: ");
+  SerialUSB.println(ips_sensor.getPC10());
+  // Print PM2.5 via USB serial
+  SerialUSB.print("PC 2.5: ");
+  SerialUSB.println(ips_sensor.getPC25());
+  // Print PM10 via USB serial
+  SerialUSB.print("PC 10: ");
+  SerialUSB.println(ips_sensor.getPC100());
+ 
+
+
+}
+
 

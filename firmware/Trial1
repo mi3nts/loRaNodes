@@ -90,23 +90,23 @@ void setup()
 
 void loop()
 {
-    // delay(sensingPeriod);
-    // if(BME280Online)
-    // {
-    //   readBME280Mints();
-    // }
+    delay(sensingPeriod);
+    if(BME280Online)
+    {
+      readBME280Mints();
+    }
     
-    // delay(sensingPeriod);
-    // if(MGS001Online)
-    // {
-    //   readMGS001Mints();
-    // }
-    // // //
-    // delay(sensingPeriod);
-    // if(SCD30Online)
-    // {
-    //   readSCD30Mints();
-    // }
+    delay(sensingPeriod);
+    if(MGS001Online)
+    {
+      readMGS001Mints();
+    }
+    // //
+    delay(sensingPeriod);
+    if(SCD30Online)
+    {
+      readSCD30Mints();
+    }
 
   delay(1000);
 }
