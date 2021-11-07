@@ -48,7 +48,7 @@ void setup()
   delay(initPeriod);
   INS219DuoOnline =  initializeINA219DuoMints();
 
-  loraInitMints();
+  // loraInitMints();
   
 }
 

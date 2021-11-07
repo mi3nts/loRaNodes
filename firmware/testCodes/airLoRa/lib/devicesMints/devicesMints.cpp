@@ -152,7 +152,7 @@ void readBME280Mints(){
                          };
 
   sensorPrintMints("BME280",readings,6);
-  loraSendMints(sendOut,3,5,21); 
+  // loraSendMints(sendOut,3,5,21); 
 }
 
 // // MGS001  ---------------------------------------
@@ -205,7 +205,7 @@ void readMGS001Mints(){
                          };
 
   sensorPrintMints("MGS001",readings,16);
-  loraSendMints(sendOut,8,5,31); 
+  // loraSendMints(sendOut,8,5,31); 
 
 }
 
