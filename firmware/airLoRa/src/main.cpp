@@ -48,60 +48,47 @@ void setup()
   delay(initPeriod);
   INS219DuoOnline =  initializeINA219DuoMints();
 
-  loraInitMints();
+  // loraInitMints();
   
 }
 
 void loop()
 {
 
+    delay(sensingPeriod);
+    if(INS219DuoOnline)
+    { 
+      readINA219DuoMintsMax();
+      SerialUSB.println(" ");
+
+    }
 
     delay(sensingPeriod);
-      SerialUSB.println("+===========================+");
     if(BME280Online)
       { 
-           SerialUSB.println("READING BME");
-           readBME280Mints();
-           SerialUSB.println(" ");
-           SerialUSB.println("BME Read");
+        readBME280MintsMax();
+        SerialUSB.println(" ");
     }
 
     delay(sensingPeriod);
     if(MGS001Online)
-    SerialUSB.println("+===========================+");
-    {SerialUSB.println("READING MGS");
-      readMGS001Mints();
-            SerialUSB.println(" ");
-           SerialUSB.println("MGS Read");
+    {
+      readMGS001MintsMax();
+      SerialUSB.println(" ");
     }
-    // // //
+  
     delay(sensingPeriod);
-    SerialUSB.println("+===========================+");
     if(SCD30Online)
-    { SerialUSB.println("READING ");
-      readSCD30Mints();
-            SerialUSB.println(" ");
-        SerialUSB.println("SCD Read");
+    {
+      readSCD30MintsMax();
+      SerialUSB.println(" ");
     }
 
     delay(sensingPeriod);
-    SerialUSB.println("+===========================+");
 
     if(IPS7100Online)
-    { SerialUSB.println("READING IPS");
+    { 
       readIPS7100Mints();
       SerialUSB.println(" ");
-      SerialUSB.println("IPS Read");
     }
-    delay(sensingPeriod);
-    SerialUSB.println("+===========================+");
-
-    if(INS219DuoOnline)
-    { SerialUSB.println("READING INS219Duo");
-      readINA219DuoMints();
-      SerialUSB.println(" ");
-      SerialUSB.println("IPS Read");
-    }
-
-
 }

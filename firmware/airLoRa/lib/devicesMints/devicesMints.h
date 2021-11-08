@@ -20,17 +20,21 @@ extern Adafruit_INA219 ina219Battery;
 extern Adafruit_INA219 ina219Solar;
 bool initializeINA219DuoMints();
 void readINA219DuoMints();
+void readINA219DuoMintsMax();
 
 extern BME280 bme280;
 bool initializeBME280Mints();
 void readBME280Mints();
-//
+void readBME280MintsMax();
+
 bool initializeMGS001Mints();
 void readMGS001Mints();
-//
+void readMGS001MintsMax();
+
 extern SCD30 scd;
 bool initializeSCD30Mints();
-void readSCD30Mints();
+// void readSCD30Mints();
+void readSCD30MintsMax();
 
 extern IpsSensor ips_sensor;
 bool initializeIPS7100Mints();

@@ -84,6 +84,30 @@ void readINA219DuoMints(){
   sensorPrintMints("INA219Duo",readings,8);
 }
 
+
+void readINA219DuoMintsMax(){
+  uint8_t sizeIn = 8;
+  uint8_t portIn = 21;
+  String sensorName = "INA219Duo" ;
+  float values[sizeIn]  = {
+                      ina219Battery.getShuntVoltage_mV(),
+                      ina219Battery.getBusVoltage_V(),
+                      ina219Battery.getCurrent_mA(),
+                      ina219Battery.getPower_mW(),
+                      ina219Solar.getShuntVoltage_mV(),
+                      ina219Solar.getBusVoltage_V(),
+                      ina219Solar.getCurrent_mA(),
+                      ina219Solar.getPower_mW()
+                      };
+
+  uint8_t sizeInBytes =sizeof(values);                    
+  byte sendOut[sizeInBytes];
+  memcpy(sendOut,&values,sizeof(values));
+  sensorPrintFloats(sensorName,values,sizeIn);
+  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+  // loraSendMints(sendOut,sizeInBytes,5,portIn); 
+}
+
 //  BME280
 
 bool initializeBME280Mints(){
@@ -102,6 +126,23 @@ bool initializeBME280Mints(){
 
 }
 
+void readBME280MintsMax()
+{
+  uint8_t sizeIn = 3;
+  uint8_t portIn = 21;
+  String sensorName = "BME280" ;
+  float values[sizeIn]  = {
+                      bme280.getTemperature(),
+                      float(bme280.getPressure())/100,
+                      bme280.getHumidity()
+                      };
+  uint8_t sizeInBytes =sizeof(values);                    
+  byte sendOut[sizeInBytes];
+  memcpy(sendOut,&values,sizeof(values));
+  sensorPrintFloats(sensorName,values,sizeIn);
+  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+  // loraSendMints(sendOut,sizeInBytes,5,portIn); 
+}
 
 // void readBME280Mints(){
 //   float values[3]  = {
@@ -129,31 +170,9 @@ bool initializeBME280Mints(){
 
 
 //   sensorPrintMints("BME280",readings,4);
-//   // loraSendMints(sendOut,4,5,21); 
+  // loraSendMints(sendOut,sizeInBytes,5,portIn); 
 // }
 
-void readBME280Mints(){
-  float values[3]  = {
-                      bme280.getTemperature(),
-                      bme280.getPressure(),
-                      bme280.getHumidity()
-                      };
-  
-  byte sendOut[3] = { 
-                      minMaxFloatMints(2*values[0]+ 81,1,241),
-                      minMaxFloatMints((values[1]-96000)/24 +1,1,251),
-                      minMaxFloatMints(2*values[2]+1,1,201)
-                      };
-  
-  String readings[6] = {
-                         String(values[0],2) , String(sendOut[0]) ,
-                         String(values[1],2) , String(sendOut[1]), 
-                         String(values[2],2) , String(sendOut[2])
-                         };
-
-  sensorPrintMints("BME280",readings,6);
-  loraSendMints(sendOut,3,5,21); 
-}
 
 // // MGS001  ---------------------------------------
 
@@ -169,9 +188,11 @@ bool initializeMGS001Mints(){
 return true;
 }
 
-void readMGS001Mints(){
-  
-  float values[8]  = {
+void readMGS001MintsMax(){
+  uint8_t sizeIn = 8;
+  uint8_t portIn = 31;
+  String sensorName = "MGS001" ;
+  float values[sizeIn]  = {
                         gas.measure_C2H5OH(),
                         gas.measure_C3H8(),
                         gas.measure_C4H10(),
@@ -182,32 +203,55 @@ void readMGS001Mints(){
                         gas.measure_NO2()
                         };
 
-  byte sendOut[8] = {
-                     minMaxFloatMints(values[0]/4+1,1,251),
-                     minMaxFloatMints(values[1]/4+1,1,251),
-                     minMaxFloatMints((values[2]-5000)/60+1,1,251),
-                     minMaxFloatMints(values[3]/40+1,1,251),
-                     minMaxFloatMints(values[4]/4+1,1,251),
-                     minMaxFloatMints(values[5]/40000,1,251),
-                     minMaxFloatMints(values[6]*5000+1,1,251),
-                     minMaxFloatMints(values[7]/12+1,1,251),
-                    };
-  
-  String readings[16] = {
-                         String(values[0],2), String(sendOut[0]),
-                         String(values[1],2), String(sendOut[1]),
-                         String(values[2],2), String(sendOut[2]),
-                         String(values[3],2), String(sendOut[3]),
-                         String(values[4],2), String(sendOut[4]),
-                         String(values[5],2), String(sendOut[5]),
-                         String(values[6],2), String(sendOut[6]),
-                         String(values[7],2), String(sendOut[7]),
-                         };
-
-  sensorPrintMints("MGS001",readings,16);
-  loraSendMints(sendOut,8,5,31); 
-
+  uint8_t sizeInBytes = sizeof(values);                    
+  byte sendOut[sizeInBytes];
+  memcpy(sendOut,&values,sizeof(values));
+  sensorPrintFloats(sensorName,values,sizeIn);
+  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+    // loraSendMints(sendOut,sizeInBytes,5,portIn); 
 }
+
+
+
+// void readMGS001Mints(){
+  
+//   float values[8]  = {
+//                         gas.measure_C2H5OH(),
+//                         gas.measure_C3H8(),
+//                         gas.measure_C4H10(),
+//                         gas.measure_CH4(),
+//                         gas.measure_CO(),
+//                         gas.measure_H2(),
+//                         gas.measure_NH3(),
+//                         gas.measure_NO2()
+//                         };
+
+//   byte sendOut[8] = {
+//                      minMaxFloatMints(values[0]/4+1,1,251),
+//                      minMaxFloatMints(values[1]/4+1,1,251),
+//                      minMaxFloatMints((values[2]-5000)/60+1,1,251),
+//                      minMaxFloatMints(values[3]/40+1,1,251),
+//                      minMaxFloatMints(values[4]/4+1,1,251),
+//                      minMaxFloatMints(values[5]/40000,1,251),
+//                      minMaxFloatMints(values[6]*5000+1,1,251),
+//                      minMaxFloatMints(values[7]/12+1,1,251),
+//                     };
+  
+//   String readings[16] = {
+//                          String(values[0],2), String(sendOut[0]),
+//                          String(values[1],2), String(sendOut[1]),
+//                          String(values[2],2), String(sendOut[2]),
+//                          String(values[3],2), String(sendOut[3]),
+//                          String(values[4],2), String(sendOut[4]),
+//                          String(values[5],2), String(sendOut[5]),
+//                          String(values[6],2), String(sendOut[6]),
+//                          String(values[7],2), String(sendOut[7]),
+//                          };
+
+//   sensorPrintMints("MGS001",readings,16);
+//   loraSendMints(sendOut,8,5,31); 
+
+// }
 
 
 
@@ -227,15 +271,22 @@ bool initializeSCD30Mints(){
   delay(2000);
 }
 
-void readSCD30Mints(){
+void readSCD30MintsMax(){
+  uint8_t sizeIn = 3;
+  uint8_t portIn = 33;
+  String sensorName = "SCD30" ;
+  float values[sizeIn]  = {
+                      scd.getCO2(),
+                      scd.getTemperature(),
+                      scd.getHumidity()
+                      };
 
-  uint16_t co2         = scd.getCO2();
-  uint16_t temperature = scd.getTemperature();
-  uint16_t humidity    = scd.getHumidity();
-
-  String readings[3] = { String(co2), String(temperature) , String(humidity) };
-  sensorPrintMints("SCD30",readings,3);
-
+  uint8_t sizeInBytes = sizeof(values);                    
+  byte sendOut[sizeInBytes];
+  memcpy(sendOut,&values,sizeof(values));
+  sensorPrintFloats(sensorName,values,sizeIn);
+  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+  // loraSendMints(sendOut,sizeInBytes,5,portIn); 
 }
 
 
@@ -247,79 +298,58 @@ bool initializeIPS7100Mints(){
 }
 
 void readIPS7100Mints(){
+  ips_sensor.update();
+  // ips_sensor.updatePC();
+  // ips_sensor.updatePM();
+  uint8_t sizeIn = 6;
+  uint8_t portIn = 13;
+  String sensorName = "IPS7100" ;
 
-delay(1000);
-  // Enable debugging
-  //  SerialUSB.println("+--------------------------+");
-  //  SerialUSB.println("Setting Debug to true");
-  //  ips_sensor.setDebug(true);
-  //  delay(1100);
+  unsigned long valuesPC[sizeIn]  = {
+                      ips_sensor.getPC01(),
+                      ips_sensor.getPC03(),
+                      ips_sensor.getPC05(),
+                      ips_sensor.getPC10(),
+                      ips_sensor.getPC25(),
+                      ips_sensor.getPC100()
+  };
 
-// //  Print sensor status
-  //  SerialUSB.println("+--------------------------+");
-  // SerialUSB.println("Reading Status");
-  // SerialUSB.print("Status: ");
-  // int status = ips_sensor.getStatus();
-  // SerialUSB.println(status);
-
-  // delay(1100);
-  //  SerialUSB.println("+--------------------------+");
-  // SerialUSB.println("Reading VREF");
-  // int vref = ips_sensor.getVref();
-  // SerialUSB.print("VREF: ");
-  // SerialUSB.println(vref);
-  // delay(1100);
-
-   SerialUSB.println("+--------------------------+");
-  SerialUSB.println("Running Update PM Command");
-  ips_sensor.updatePM();
+  float valuesPM[sizeIn]  = {
+                      ips_sensor.getPM01(),
+                      ips_sensor.getPM03(),
+                      ips_sensor.getPM05(),
+                      ips_sensor.getPM10(),
+                      ips_sensor.getPM25(),
+                      ips_sensor.getPM100()
+                      };
 
 
-  // Print PM1.0 via USB serial
-  SerialUSB.print("PM 0.1: ");
-  SerialUSB.println(ips_sensor.getPM01());
-  // Print PM1.0 via USB serial
-  SerialUSB.print("PM 0.3: ");
-  SerialUSB.println(ips_sensor.getPM03());
-  // Print PM1.0 via USB serial
-  SerialUSB.print("PM 0.5: ");
-  SerialUSB.println(ips_sensor.getPM05());
-  // Print PM1.0 via USB serial
-  SerialUSB.print("PM 1.0: ");
-  SerialUSB.println(ips_sensor.getPM10());
-  // Print PM2.5 via USB serial
-  SerialUSB.print("PM 2.5: ");
-  SerialUSB.println(ips_sensor.getPM25());
-  // Print PM10 via USB serial
-  SerialUSB.print("PM 10: ");
-  SerialUSB.println(ips_sensor.getPM100());
- 
-  delay(1100);
-   SerialUSB.println("+--------------------------+");
-  SerialUSB.println("Running Update PC Command");
-  ips_sensor.updatePC();
+  uint8_t sizeInBytesPC = sizeof(valuesPC);   
+  uint8_t sizeInBytesPM = sizeof(valuesPM);   
+  uint8_t sizeInBytes = sizeof(valuesPC) + sizeof(valuesPM);  
 
-  // Print PM1.0 via USB serial
-  SerialUSB.print("PC 0.1: ");
-  SerialUSB.println(ips_sensor.getPC01());
-  // Print PM1.0 via USB serial
-  SerialUSB.print("PC 0.3: ");
-  SerialUSB.println(ips_sensor.getPC03());
-  // Print PM1.0 via USB serial
-  SerialUSB.print("PC 0.5: ");
-  SerialUSB.println(ips_sensor.getPC05());
-  // Print PM1.0 via USB serial
-  SerialUSB.print("PC 1.0: ");
-  SerialUSB.println(ips_sensor.getPC10());
-  // Print PM2.5 via USB serial
-  SerialUSB.print("PC 2.5: ");
-  SerialUSB.println(ips_sensor.getPC25());
-  // Print PM10 via USB serial
-  SerialUSB.print("PC 10: ");
-  SerialUSB.println(ips_sensor.getPC100());
- 
+  byte sendOutPC[sizeInBytesPC];
+  byte sendOutPM[sizeInBytesPM];
+  byte sendOut[sizeInBytes];
+
+  memcpy(sendOutPC,&valuesPC,sizeof(valuesPC));
+  memcpy(sendOutPM,&valuesPM,sizeof(valuesPM));
 
 
+
+  memcpy(sendOut, &sendOutPC, sizeof(valuesPC));
+  memcpy(sendOut + sizeInBytesPC, &sendOutPM, sizeof(valuesPC));
+
+  sensorPrintULongs(sensorName,valuesPC,sizeIn);
+        SerialUSB.println(" ");
+  sensorPrintFloats(sensorName,valuesPM,sizeIn);
+        SerialUSB.println(" ");
+  sensorPrintBytes(sensorName,sendOutPC,sizeInBytesPC);
+          SerialUSB.println(" ");
+    sensorPrintBytes(sensorName,sendOutPM,sizeInBytesPM);
+            SerialUSB.println(" ");                    
+      sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+  // loraSendMints(sendOut,sizeInBytes,5,portIn);
 }
 
 

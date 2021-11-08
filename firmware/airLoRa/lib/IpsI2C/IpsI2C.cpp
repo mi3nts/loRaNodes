@@ -149,7 +149,7 @@ std::vector<uint8_t> IpsSensor::read_i2c(unsigned char command, int reply_size, 
     if (message_checksum == received_checksum)
     {
       checksum_pass = true;
-      SerialUSB.println("Checksum Success.");
+      // SerialUSB.println("Checksum Success.");
     }
     else
     {

@@ -15,6 +15,37 @@ void sensorPrintMints(String sensor,String readings[],uint8_t numOfvals){
       SerialUSB.print("~");
 }
 
+byte sensorPrintBytes(String sensor,byte readings[],uint8_t numOfvals){
+
+  SerialUSB.print("#mintsB!");SerialUSB.print(sensor);SerialUSB.print(">");
+  for (int i = 0; i < numOfvals; ++i)
+      {
+        SerialUSB.print(readings[i]);SerialUSB.print(":");
+      }
+      SerialUSB.print("~");
+}
+
+
+void sensorPrintFloats(String sensor,float readings[],uint8_t numOfvals){
+  SerialUSB.print("#mintsF!");SerialUSB.print(sensor);SerialUSB.print(">");
+  for (int i = 0; i < numOfvals; ++i)
+      {
+        SerialUSB.print(String(readings[i]));SerialUSB.print(":");
+      }
+      SerialUSB.print("~");
+}
+
+void sensorPrintULongs(String sensor,unsigned long readings[],uint8_t numOfvals){
+  SerialUSB.print("#mintsUL!");SerialUSB.print(sensor);SerialUSB.print(">");
+  for (int i = 0; i < numOfvals; ++i)
+      {
+        SerialUSB.print(String(readings[i]));SerialUSB.print(":");
+      }
+      SerialUSB.print("~");
+}
+
+
+
 
 void loraSendMints(byte sendOut[], uint8_t numOfBytes, uint8_t timeOut, uint8_t portNum){
   SerialUSB.println("");
