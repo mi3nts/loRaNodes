@@ -1,48 +1,6 @@
 
 #include "devicesMints.h"
 
-void loraInitMints()
-{
-  char buffer[256];
-  SerialUSB.println("LoRa Init");
-  lora.init();
-  lora.setDeviceReset();
-  lora.setDeviceDefault();
-
-  SerialUSB.println("Get Module Version");
-  memset(buffer, 0, 256);
-  lora.getVersion(buffer, 256, 1);
-  SerialUSB.println("Version");
-  SerialUSB.print(buffer);
-
-  SerialUSB.println("Get Lora Credentials");
-  memset(buffer, 0, 256);
-  lora.getId(buffer, 256, 1);
-  SerialUSB.println("LoRa ID");
-  SerialUSB.print(buffer);
-
-  SerialUSB.println("Setting Keys");
-  lora.setKey(NULL, NULL, "312F851628AED2A6ABF7159999CF4F3C");
- 
-  SerialUSB.println("Setting LWOTAA Mode");
-  lora.setDeciveMode(LWOTAA);
-  lora.setDataRate(DR3, US915);
-  lora.setJoinDutyCycle(false);
-
-  // SerialUSB.println("Setting Power");
-  lora.setPower(20);  //###
-  lora.setPort(1);
-  lora.setClassType(CLASS_A);
-
-  SerialUSB.println("Starting Join");
-  while(!lora.setOTAAJoin(JOIN, 10));
-
-
-  SerialUSB.println("Setup Complete");
-
-
-}
-
 
 
 
@@ -67,6 +25,34 @@ bool initializeINA219DuoMints()
 
 
 
+uint8_t getPowerMode(uint8_t powerPin)
+{
+  float busVoltageBat    = ina219Battery.getBusVoltage_V();
+  float busVoltageSol    = ina219Solar.getBusVoltage_V();
+  String readings[2] = {  
+                          String( busVoltageBat,2), \
+                          String( busVoltageSol,2)};
+  sensorPrintMints("INA219Duo",readings,2);
+
+  if (abs(busVoltageBat) < 3.00 & abs(busVoltageSol) < 5.5 ) 
+  {
+    rebootBoard(powerPin);
+    return 0;
+  }
+   else if (abs(busVoltageBat)< 3.00 & abs(busVoltageSol)> 5.5) {
+   return 1;
+  }
+  else if (abs(busVoltageBat) > 3.00 & abs(busVoltageSol) < 5.5)  {
+  return 2;
+  }
+  else
+  {
+   return 3;
+  }
+}
+
+
+
 void readINA219DuoMints(){
 
   float shuntVoltageBat  = ina219Battery.getShuntVoltage_mV();
@@ -80,14 +66,20 @@ void readINA219DuoMints(){
   float powerMwSol       = ina219Solar.getPower_mW();
 
   String readings[8] = { String(shuntVoltageBat,2) , String( busVoltageBat,2), String(currentMaBat ,2) , String(powerMwBat,2) ,
-   String(shuntVoltageSol,2) , String( busVoltageSol,2), String(currentMaSol ,2) , String(powerMwSol,2)};
+  String(shuntVoltageSol,2) , String( busVoltageSol,2), String(currentMaSol ,2) , String(powerMwSol,2)};
   sensorPrintMints("INA219Duo",readings,8);
 }
+
+// void initializeReboot(uint8_t rebootPin){
+//   pinMode(rebootPin, OUTPUT); 
+// }
+
+
 
 
 void readINA219DuoMintsMax(){
   uint8_t sizeIn = 8;
-  uint8_t portIn = 21;
+  uint8_t portIn = 3;
   String sensorName = "INA219Duo" ;
   float values[sizeIn]  = {
                       ina219Battery.getShuntVoltage_mV(),
@@ -105,8 +97,88 @@ void readINA219DuoMintsMax(){
   memcpy(sendOut,&values,sizeof(values));
   sensorPrintFloats(sensorName,values,sizeIn);
   sensorPrintBytes(sensorName,sendOut,sizeInBytes);
-  // loraSendMints(sendOut,sizeInBytes,5,portIn); 
+  loRaSendMints(sendOut,sizeInBytes,5,portIn); 
 }
+
+uint32_t getPeriod(uint8_t powerMode, String sensorID){
+  if (sensorID == "IPS7100") {
+    
+    if (powerMode == 1 ){
+      return 30000; 
+    }
+    if (powerMode == 2 ){
+      return 30000; 
+    }
+    if (powerMode == 3 ){
+      return 20000; 
+    }
+  }
+  if (sensorID == "BME280") {
+    if (powerMode== 1 ){
+      return 60000; 
+    }
+    if (powerMode  == 2 ){
+      return 60000; 
+    }
+    if (powerMode  == 3 ){
+      return 30000; 
+    }
+  }
+  if (sensorID == "SCD30") {
+    if (powerMode  == 1 ){
+      return 60000; 
+    }
+    if (powerMode == 2 ){
+      return 60000; 
+    }
+    if (powerMode  == 3 ){
+      return 30000; 
+    }
+  }
+
+  if (sensorID == "MGS001") {
+    if (powerMode  == 1 ){
+      return 60000; 
+    }
+    if (powerMode  == 2 ){
+      return 60000; 
+    }
+    if (powerMode  == 3 ){
+      return 30000; 
+    }
+  }
+
+  if (sensorID == "INA219Duo") {
+    if (powerMode  == 1 ){
+      return 600000; 
+    }
+    if (powerMode  == 2 ){
+      return 600000; 
+    }
+    if (powerMode  == 3 ){
+      return 180000; 
+    }
+  }
+
+  if (sensorID == "GPGGALR") {
+    if (powerMode  == 1 ){
+      return 600000; 
+    }
+    if (powerMode == 2 ){
+      return 600000; 
+    }
+    if (powerMode == 3 ){
+      return 180000; 
+    }
+  }
+
+return 30000;
+
+} // End of Period Seek 
+ 
+
+
+
 
 //  BME280
 
@@ -134,14 +206,14 @@ void readBME280MintsMax()
   float values[sizeIn]  = {
                       bme280.getTemperature(),
                       float(bme280.getPressure())/100,
-                      bme280.getHumidity()
+                      float(bme280.getHumidity())
                       };
   uint8_t sizeInBytes =sizeof(values);                    
   byte sendOut[sizeInBytes];
   memcpy(sendOut,&values,sizeof(values));
   sensorPrintFloats(sensorName,values,sizeIn);
   sensorPrintBytes(sensorName,sendOut,sizeInBytes);
-  // loraSendMints(sendOut,sizeInBytes,5,portIn); 
+  loRaSendMints(sendOut,sizeInBytes,5,portIn); 
 }
 
 // void readBME280Mints(){
@@ -170,7 +242,7 @@ void readBME280MintsMax()
 
 
 //   sensorPrintMints("BME280",readings,4);
-  // loraSendMints(sendOut,sizeInBytes,5,portIn); 
+  // loRaSendMints(sendOut,sizeInBytes,5,portIn); 
 // }
 
 
@@ -179,6 +251,8 @@ void readBME280MintsMax()
 bool initializeMGS001Mints(){
 
   gas.begin(0x04);//the default I2C address of the slave is 0x04
+  
+  SerialUSB.println("MGS001 ON");
   gas.powerOn();
   SerialUSB.println("MGS001 Initiated");
   SerialUSB.print("MGS001 Firmware Version = ");
@@ -208,7 +282,7 @@ void readMGS001MintsMax(){
   memcpy(sendOut,&values,sizeof(values));
   sensorPrintFloats(sensorName,values,sizeIn);
   sensorPrintBytes(sensorName,sendOut,sizeInBytes);
-    // loraSendMints(sendOut,sizeInBytes,5,portIn); 
+  loRaSendMints(sendOut,sizeInBytes,5,portIn); 
 }
 
 
@@ -249,7 +323,7 @@ void readMGS001MintsMax(){
 //                          };
 
 //   sensorPrintMints("MGS001",readings,16);
-//   loraSendMints(sendOut,8,5,31); 
+//   loRaSendMints(sendOut,8,5,31); 
 
 // }
 
@@ -257,8 +331,13 @@ void readMGS001MintsMax(){
 
 
 // SCD30 ---------------------------------------
-bool initializeSCD30Mints(){
+bool initializeSCD30Mints(uint16_t scdPeriod ){
   if (scd.begin()) {
+    delay(10);
+    scd.setMeasurementInterval(scdPeriod);
+    delay(10);
+    SerialUSB.println("SCD30 Measurement Interval: ");
+    SerialUSB.println(scd.getMeasurementInterval()); SerialUSB.print(" Seconds");
     SerialUSB.println("SCD30 Initiated");
     delay(1);
     return true;
@@ -267,8 +346,6 @@ bool initializeSCD30Mints(){
     delay(1);
     return false;
   }
-
-  delay(2000);
 }
 
 void readSCD30MintsMax(){
@@ -286,7 +363,7 @@ void readSCD30MintsMax(){
   memcpy(sendOut,&values,sizeof(values));
   sensorPrintFloats(sensorName,values,sizeIn);
   sensorPrintBytes(sensorName,sendOut,sizeInBytes);
-  // loraSendMints(sendOut,sizeInBytes,5,portIn); 
+  loRaSendMints(sendOut,sizeInBytes,5,portIn); 
 }
 
 
@@ -297,12 +374,16 @@ bool initializeIPS7100Mints(){
    return true;
 }
 
-void readIPS7100Mints(){
+void readIPS7100MintsMax(){
   ips_sensor.update();
   // ips_sensor.updatePC();
   // ips_sensor.updatePM();
   uint8_t sizeIn = 6;
   uint8_t portIn = 13;
+  
+  uint8_t portInPC = 15;
+  uint8_t portInPM = 16;
+
   String sensorName = "IPS7100" ;
 
   unsigned long valuesPC[sizeIn]  = {
@@ -345,11 +426,19 @@ void readIPS7100Mints(){
   sensorPrintFloats(sensorName,valuesPM,sizeIn);
         SerialUSB.println(" ");
   sensorPrintBytes(sensorName,sendOutPC,sizeInBytesPC);
-          SerialUSB.println(" ");
-    sensorPrintBytes(sensorName,sendOutPM,sizeInBytesPM);
-            SerialUSB.println(" ");                    
-      sensorPrintBytes(sensorName,sendOut,sizeInBytes);
-  // loraSendMints(sendOut,sizeInBytes,5,portIn);
+        SerialUSB.println(" ");
+  sensorPrintBytes(sensorName,sendOutPM,sizeInBytesPM);
+            SerialUSB.println(" ");                 
+
+  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+  loRaSendMints(sendOut,sizeInBytes,5,portIn);
 }
 
 
+void resetIPS7100Mints(uint32_t secondsIn){
+  SerialUSB.println("Resetting IPS7100");
+  for (uint16_t  cT = 1 ;cT<secondsIn ; cT++){
+    ips_sensor.update();
+    delay(1000);
+  } 
+}

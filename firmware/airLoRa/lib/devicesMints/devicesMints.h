@@ -1,7 +1,9 @@
 #ifndef DEVICES_MINTS_H
 #define DEVICES_MINTS_H
 
+#include "loRaMints.h"
 #include "jobsMints.h"
+
 
 #include "Adafruit_INA219.h"
 #include "Seeed_BME280.h"
@@ -9,10 +11,6 @@
 #include "MutichannelGasSensor.h"
 #include "LoRaWan.h"
 #include <IpsI2C.h>
-
-
-void loraInitMints();
-
 
 
 
@@ -32,12 +30,18 @@ void readMGS001Mints();
 void readMGS001MintsMax();
 
 extern SCD30 scd;
-bool initializeSCD30Mints();
+bool initializeSCD30Mints(uint16_t scdPeriod );
 // void readSCD30Mints();
 void readSCD30MintsMax();
 
+
 extern IpsSensor ips_sensor;
 bool initializeIPS7100Mints();
-void readIPS7100Mints();
+void readIPS7100MintsMax();
+void resetIPS7100Mints(uint32_t secondsIn);
+
+uint8_t getPowerMode(uint8_t powerPin);
+uint32_t getPeriod(uint8_t getPowerMode, String sensorID);
+
 
 #endif
