@@ -1,6 +1,7 @@
 
 #include "jobsMints.h"
 #include "devicesMints.h"
+#include "loRaMints.h"
 #include "LoRaWan.h"
 
 // GET THE FREQUENCIES CORRECT
@@ -8,7 +9,7 @@
 // JOIN CHECK 
 
 // ADD LORA APP KEY HERE 
-char* keyIn = "312F851628AED2A6ABF7159999CF4F3C";
+char* keyIn = "456F851628AED2A6ACD3159999CF4F3C";
 
 bool BME280Online;
 BME280 bme280; // I2C
@@ -20,7 +21,7 @@ uint16_t SCD30ReadTime = 30;
 
 bool IPS7100Online;
 IpsSensor ips_sensor;
-uint32_t IPS7100ResetTime = 10;
+uint32_t IPS7100ResetTime = 30;
 
 bool MGS001Online;
 
@@ -92,50 +93,54 @@ void setup()
 
 void loop()
 {
+      if(readNow(INA219DuoOnline,INA219DuoTime,INA219DuoPeriod))
+      { 
+        readINA219DuoMintsMax();
+        INA219DuoTime  = millis();
+        delay(2500); 
+      }
+
 
     if(readNow(BME280Online,BME280Time,BME280Period))
       { 
-        SerialUSB.println(millis());
         readBME280MintsMax();
         BME280Time  = millis();
-        delay(3000);
-      }
-     
-      if(readNow(SCD30Online,SCD30Time,SCD30Period))
-      { 
-        SerialUSB.println(millis());
-        readSCD30MintsMax();
-        SCD30Time  = millis();
-        delay(3000);
-        }
-      
-      if(readNow(MGS001Online,MGS001Time,MGS001Period))
-      { 
-        SerialUSB.println(millis());
-        readMGS001MintsMax();
-        MGS001Time  = millis();
-        delay(3000); 
+        delay(2500);
       }
       
       if(readNow(IPS7100Online,IPS7100Time,IPS7100Period))
       {
-        SerialUSB.println(millis());
         readIPS7100MintsMax();
         IPS7100Time  = millis();
-        delay(3000);
+        delay(2500);
       }
 
-      if(readNow(INA219DuoOnline,INA219DuoTime,INA219DuoPeriod))
+
+      if(readNow(SCD30Online,SCD30Time,SCD30Period))
       { 
-        SerialUSB.println(millis());
-        readINA219DuoMintsMax();
-        INA219DuoTime  = millis();
-        delay(3000); 
+        readSCD30MintsMax();
+        SCD30Time  = millis();
+        delay(2500);
+        }
+      
+
+      if(readNow(IPS7100Online,IPS7100Time,IPS7100Period))
+      {
+        readIPS7100MintsMax();
+        IPS7100Time  = millis();
+        delay(2500);
       }
 
-    // lora.setDeviceLowPower();    // bring the LoRaWAN module to sleep mode
-    
-    // checkReboot(powerMode,rebootPin);
+      if(readNow(MGS001Online,MGS001Time,MGS001Period))
+      { 
+        readMGS001MintsMax();
+        MGS001Time  = millis();
+        delay(2500); 
+      }
+
+  // checkReboot(powerMode,rebootPin);
+  // lora.setDeviceLowPower();    // bring the LoRaWAN module to sleep mode
+
 }
 
 

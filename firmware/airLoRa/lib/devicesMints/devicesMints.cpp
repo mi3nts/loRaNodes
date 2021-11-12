@@ -150,10 +150,10 @@ uint32_t getPeriod(uint8_t powerMode, String sensorID){
 
   if (sensorID == "INA219Duo") {
     if (powerMode  == 1 ){
-      return 600000; 
+      return 240000; // 4 Minutes 
     }
     if (powerMode  == 2 ){
-      return 600000; 
+      return 240000; 
     }
     if (powerMode  == 3 ){
       return 180000; 
@@ -162,10 +162,10 @@ uint32_t getPeriod(uint8_t powerMode, String sensorID){
 
   if (sensorID == "GPGGALR") {
     if (powerMode  == 1 ){
-      return 600000; 
+      return 240000; 
     }
     if (powerMode == 2 ){
-      return 600000; 
+      return 240000; 
     }
     if (powerMode == 3 ){
       return 180000; 

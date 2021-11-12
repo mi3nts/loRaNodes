@@ -113,7 +113,7 @@ void initializeReboot(uint8_t rebootPin){
 }
 
 void rebootBoard(uint8_t rebootPin){
-    SerialUSB.print("Rebooting Board");
+    SerialUSB.println("Rebooting Board");
     digitalWrite(rebootPin, HIGH);
     delay(1);
     digitalWrite(rebootPin, LOW);
@@ -121,21 +121,17 @@ void rebootBoard(uint8_t rebootPin){
 }
 
 bool readNow(bool sensorOnline,uint32_t startIn,uint32_t periodIn){
-    // SerialUSB.println("readNow");
-    // SerialUSB.println(startIn);
-    // SerialUSB.println(periodIn);
-    // SerialUSB.println(millis());
-    // SerialUSB.println((((millis() - startIn)> periodIn)&& sensorOnline));
     return ((((millis() - startIn)> periodIn)&& sensorOnline));
 }
 
 void checkReboot(uint8_t powerModeIn,uint8_t rebootPinIn){
   if((powerModeIn == 1) && (millis() > 450000) ){
     rebootBoard(rebootPinIn); // Halt the board in the day after 7.5 minutes
-    delay(10000);
+    delay(1000000);
   }
   if((powerModeIn == 2) && (millis() > 360000) ){
     rebootBoard(rebootPinIn); // Halt the board in the day after 6 minutes
-    delay(10000);
+    delay(1000000);
   }
+
 }
