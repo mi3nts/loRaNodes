@@ -252,6 +252,35 @@ bool LoRaWanClass::transferPacket(char *buffer, unsigned char timeout)
     return false;
 }
 
+bool LoRaWanClass::transferPacketCheck(unsigned char *buffer, unsigned char length, unsigned char timeout)
+{
+    char temp[2] = {0};
+    
+    while(SerialLoRa.available())SerialLoRa.read();
+    
+    sendCommand("AT+MSGHEX=\"");
+    for(unsigned char i = 0; i < length; i ++)
+    {
+        sprintf(temp,"%02x", buffer[i]);
+        SerialLoRa.write(temp); 
+    }
+    sendCommand("\"\r\n");
+    
+    memset(_buffer, 0, BEFFER_LENGTH_MAX);
+    readBuffer(_buffer, BEFFER_LENGTH_MAX, timeout);
+    #if _DEBUG_SERIAL_    
+        SerialUSB.print(_buffer);
+    #endif    
+    if(strstr(_buffer, "+MSGHEX: RXWIN1")){
+        return true;
+    }
+    
+    
+    // if(strstr(_buffer, "+MSGHEX: Done"))return true;
+    return false;
+}
+
+
 bool LoRaWanClass::transferPacket(unsigned char *buffer, unsigned char length, unsigned char timeout)
 {
     char temp[2] = {0};
@@ -268,9 +297,9 @@ bool LoRaWanClass::transferPacket(unsigned char *buffer, unsigned char length, u
     
     memset(_buffer, 0, BEFFER_LENGTH_MAX);
     readBuffer(_buffer, BEFFER_LENGTH_MAX, timeout);
-#if _DEBUG_SERIAL_    
-    SerialUSB.print(_buffer);
-#endif    
+    #if _DEBUG_SERIAL_    
+        SerialUSB.print(_buffer);
+    #endif    
     if(strstr(_buffer, "+MSGHEX: Done"))return true;
     return false;
 }

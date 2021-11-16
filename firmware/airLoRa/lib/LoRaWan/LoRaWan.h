@@ -241,6 +241,7 @@ class LoRaWanClass
          *  
          *  \return Return bool. Ture : transfer done, false : transfer failed
          */
+        bool transferPacketCheck(unsigned char *buffer, unsigned char length, unsigned char timeout = DEFAULT_TIMEOUT);
         bool transferPacket(unsigned char *buffer, unsigned char length, unsigned char timeout = DEFAULT_TIMEOUT);
         /**
          *  \brief Transfer the packet data

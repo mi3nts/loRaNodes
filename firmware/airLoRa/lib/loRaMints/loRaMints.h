@@ -6,6 +6,8 @@
 
 
 void loraInitMints(char* keyIn);
+extern uint8_t rebootPin; 
+void resetLoRaMints(uint32_t secondsIn);
 void sensorPrintULongs(String sensor,unsigned long readings[],uint8_t numOfvals);
 void sensorPrintFloats(String sensor,float readings[],uint8_t numOfvals);
 byte sensorPrintBytes(String sensor,byte readings[],uint8_t numOfvals);

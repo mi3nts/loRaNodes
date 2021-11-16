@@ -29,7 +29,7 @@ char id[10];
 
 void setup()
 {
-
+  
   delay(initPeriod);
   initializeSerialMints();
 
@@ -48,7 +48,7 @@ void setup()
   delay(initPeriod);
   INS219DuoOnline =  initializeINA219DuoMints();
 
-  // loraInitMints();
+  loraInitMints();
   
 }
 

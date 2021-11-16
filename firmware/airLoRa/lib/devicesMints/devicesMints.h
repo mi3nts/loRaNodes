@@ -10,6 +10,7 @@
 #include "SparkFun_SCD30_Arduino_Library.h"
 #include "MutichannelGasSensor.h"
 #include "LoRaWan.h"
+#include "TinyGPS++.h"
 #include <IpsI2C.h>
 
 
@@ -19,6 +20,11 @@ extern Adafruit_INA219 ina219Solar;
 bool initializeINA219DuoMints();
 void readINA219DuoMints();
 void readINA219DuoMintsMax();
+
+extern TinyGPSPlus gpggalr;
+bool initializeGPGGALRMints();
+void readGPGGALRMintsMax();
+
 
 extern BME280 bme280;
 bool initializeBME280Mints();

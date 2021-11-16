@@ -29,22 +29,71 @@ void loraInitMints(char* keyIn)
   SerialUSB.println("Setting LWOTAA Mode");
   lora.setDeciveMode(LWOTAA);
   lora.setDataRate(DR3, US915);
+  
+  lora.setChannel(0, 913.5);
+  lora.setChannel(1, 913.7);
+  lora.setChannel(2, 913.9);
+  lora.setChannel(3, 914.1);
+  lora.setChannel(4, 914.3);
+  lora.setChannel(5, 914.5);
+  lora.setChannel(6, 914.7);
+  lora.setChannel(7, 914.9);
+  lora.setReceiceWindowFirst(0,  927.5);
+  lora.setReceiceWindowSecond(927.5, DR8);
+
+
   lora.setJoinDutyCycle(false);
 
   // SerialUSB.println("Setting Power");
   lora.setPower(14);  //###
   lora.setPort(1);
   lora.setClassType(CLASS_A);
-
   SerialUSB.println("Starting Join");
-  while(!lora.setOTAAJoin(JOIN, 10));
-
-
-  SerialUSB.println("Setup Complete");
-
-
+ 
+  for (uint8_t i = 1; i <= 10; i++) {{
+     if(lora.setOTAAJoin(JOIN, 10)){
+      SerialUSB.println("Setup Complete");
+      return;
+  }}}
+    SerialUSB.println("No gateway found 1");
+    SerialUSB.println("Delay 1: 1 Minute");
+    delay (60000);
+  for (uint8_t i = 1; i <= 10; i++) {{
+     if(lora.setOTAAJoin(JOIN, 10)){
+      SerialUSB.println("Setup Complete");
+      return;
+  }}} 
+    SerialUSB.println("No gateway found 2");
+    SerialUSB.println("Delay 2: 2 Minute");
+    delay (120000);
+  for (uint8_t i = 1; i <= 10; i++) {{
+     if(lora.setOTAAJoin(JOIN, 10)){
+      SerialUSB.println("Setup Complete");
+      return;
+  }}} 
+  SerialUSB.println("No gateway found 2");
+  SerialUSB.println("Sleeping");
+  rebootBoard(rebootPin);
+  delay (120000);
 }
 
+void resetLoRaMints(uint32_t secondsIn){
+  byte sendOut[1];
+  for (uint16_t  cT = 1 ;cT<secondsIn ; cT++){
+     if(lora.transferPacketCheck(sendOut,1,5)){
+        SerialUSB.println("Gateway Contacted");
+       break;
+     }
+    // delay(1000);
+  } 
+}
+
+
+void loRaSendMints(byte sendOut[], uint8_t numOfBytes, uint8_t timeOut, uint8_t portNum){
+  SerialUSB.println("");
+  lora.setPort(portNum);
+  lora.transferPacket(sendOut,numOfBytes,timeOut);
+}
 
 
 
@@ -77,12 +126,6 @@ void sensorPrintULongs(String sensor,unsigned long readings[],uint8_t numOfvals)
       SerialUSB.print("~");
 }
 
-void loRaSendMints(byte sendOut[], uint8_t numOfBytes, uint8_t timeOut, uint8_t portNum){
-  SerialUSB.println("");
-  lora.setPort(portNum);
-  lora.transferPacket(sendOut,numOfBytes,timeOut);
-
-}
 
 byte minMaxFloatMints(float inVal, float min, float max){
   if (inVal<min) {
@@ -113,6 +156,7 @@ void initializeReboot(uint8_t rebootPin){
 }
 
 void rebootBoard(uint8_t rebootPin){
+    SerialUSB.println();
     SerialUSB.println("Rebooting Board");
     digitalWrite(rebootPin, HIGH);
     delay(1);

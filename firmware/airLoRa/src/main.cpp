@@ -9,7 +9,13 @@
 // JOIN CHECK 
 
 // ADD LORA APP KEY HERE 
-char* keyIn = "456F851628AED2A6ACD3159999CF4F3C";
+char* keyIn = "121F851628AED2A6ADC9159999CF4F3C";
+
+uint8_t numOfTries = 20; 
+
+bool GPGGALROnline;
+TinyGPSPlus gpggalr;
+
 
 bool BME280Online;
 BME280 bme280; // I2C
@@ -55,7 +61,7 @@ void setup()
   // startTime  = millis();
   initializeSerialMints();
   initializeReboot(rebootPin);
-
+  delay(10000);
   INA219DuoOnline =  initializeINA219DuoMints();
   powerMode       =  getPowerMode(rebootPin);
 
@@ -63,11 +69,16 @@ void setup()
 
   loraInitMints(keyIn);
 
+  GPGGALROnline  = initializeGPGGALRMints();
+  GPGGALRPeriod  = getPeriod(powerMode, "GPGGALR");
+  SerialUSB.println("GPGGALR Period");
+  SerialUSB.println(GPGGALRPeriod);
+
+
   BME280Online  = initializeBME280Mints();
   BME280Period  = getPeriod(powerMode, "BME280");
   SerialUSB.println("BME Period");
   SerialUSB.println(BME280Period);
-
 
   SCD30Online   =  initializeSCD30Mints(SCD30ReadTime);
   SCD30Period  = getPeriod(powerMode, "SCD30");
@@ -87,8 +98,8 @@ void setup()
   SerialUSB.println("Power Mode: ");
   SerialUSB.println(powerMode);
 
-  resetIPS7100Mints(IPS7100ResetTime);
-  
+  // resetIPS7100Mints(IPS7100ResetTime);
+  resetLoRaMints(numOfTries);
 }
 
 void loop()
@@ -137,6 +148,14 @@ void loop()
         MGS001Time  = millis();
         delay(2500); 
       }
+
+      if(readNow(GPGGALROnline,GPGGALRTime,GPGGALRPeriod))
+      { 
+        readGPGGALRMintsMax();
+        GPGGALRTime  = millis();
+        delay(2500); 
+      }
+
 
   // checkReboot(powerMode,rebootPin);
   // lora.setDeviceLowPower();    // bring the LoRaWAN module to sleep mode

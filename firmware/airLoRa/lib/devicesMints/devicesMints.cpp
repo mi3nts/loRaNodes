@@ -2,6 +2,125 @@
 #include "devicesMints.h"
 
 
+bool initializeGPGGALRMints()
+{
+  return true;
+}
+
+void readGPGGALRMintsMax()
+{
+  unsigned long waitTime = 5000;  
+  unsigned long start = millis();
+  Serial.begin(9600); 
+  do 
+  {
+    while (Serial.available())
+      gpggalr.encode(Serial.read());
+  } while (millis() - start < waitTime);
+
+SerialUSB.print("Num of Satelites Validity: ");
+SerialUSB.println(gpggalr.satellites.isValid());
+SerialUSB.print("Num of Satelites: ");
+SerialUSB.println(gpggalr.satellites.value());
+
+SerialUSB.print("HDOP Validity: ");
+SerialUSB.println(gpggalr.hdop.isValid());
+SerialUSB.print("HDOP: ");
+SerialUSB.println(gpggalr.hdop.hdop());
+
+SerialUSB.print("Location Validity");
+SerialUSB.println(gpggalr.location.isValid());
+SerialUSB.print("Latitude: ");
+SerialUSB.println(gpggalr.location.lat(),10);
+SerialUSB.print("Longitude: ");
+SerialUSB.println(gpggalr.location.lng(),10);
+SerialUSB.print("Location Age: ");
+SerialUSB.println(gpggalr.location.age());
+
+SerialUSB.print("Date: ");
+SerialUSB.print(gpggalr.date.year());
+SerialUSB.print(":");
+SerialUSB.print(gpggalr.date.month());
+SerialUSB.print(":");
+SerialUSB.println(gpggalr.date.day());  
+
+SerialUSB.print("Time: ");
+SerialUSB.print(gpggalr.time.hour());
+SerialUSB.print(":");
+SerialUSB.print(gpggalr.time.minute());
+SerialUSB.print(":");
+SerialUSB.println(gpggalr.time.second());
+
+SerialUSB.print("Altitude Validity: ");
+SerialUSB.println(gpggalr.altitude.isValid());
+SerialUSB.print("Altitude: ");
+SerialUSB.println(gpggalr.altitude.meters());
+
+SerialUSB.print("Course Validity: ");
+SerialUSB.println(gpggalr.course.isValid());
+SerialUSB.print("Course: ");
+SerialUSB.println(gpggalr.course.deg());
+
+SerialUSB.print("Speed Validity: ");
+SerialUSB.println(gpggalr.course.isValid());
+SerialUSB.print("Speed: ");
+SerialUSB.println(gpggalr.speed.kmph());
+
+SerialUSB.print("Altitude: ");
+SerialUSB.println(gpggalr.altitude.meters());
+
+if (gpggalr.location.isValid())
+  {
+    uint8_t portIn       = 5;
+    uint8_t sizeInDouble = 6;
+    uint8_t sizeInUint16 = 1;
+    uint8_t sizeInUint8  = 5;
+    
+    String sensorName = "GPGGALR" ;
+    double valuesDouble[sizeInDouble]  = {
+                   gpggalr.location.lat(),
+                   gpggalr.location.lng(),
+                   gpggalr.speed.kmph(),
+                   gpggalr.altitude.meters(),
+                   gpggalr.course.deg(),
+                   gpggalr.hdop.hdop()
+    };
+
+    uint16_t valuesUint16[sizeInUint16]  = {
+                 gpggalr.date.year()
+    };
+    uint8_t valuesUint8[sizeInUint8]  = {
+                     gpggalr.date.month(),
+                     gpggalr.date.day(),
+                     gpggalr.time.hour(),
+                     gpggalr.time.minute(),
+                     gpggalr.time.second(),
+                  };  
+
+  uint8_t sizeInBytesDouble= sizeof(valuesDouble);   
+  uint8_t sizeInBytesUint16 = sizeof(valuesUint16);   
+  uint8_t sizeInBytesUint8  = sizeof(valuesUint8);
+  uint8_t sizeInBytes       =  sizeInBytesDouble + sizeInBytesUint16+ sizeInBytesUint8;
+
+  byte sendOutDouble[sizeInBytesDouble];
+  byte sendOutUint16[sizeInBytesUint16];
+  byte sendOutUint8[sizeInBytesUint8];
+  
+  byte sendOut[sizeInBytes];
+
+  memcpy(sendOutDouble,&valuesDouble,sizeof(valuesDouble));
+  memcpy(sendOutUint16,&valuesUint16,sizeof(valuesUint16));
+  memcpy(sendOutUint8,&valuesUint8,sizeof(valuesUint8));
+
+  memcpy(sendOut, &sendOutDouble, sizeof(valuesDouble));
+  memcpy(sendOut + sizeInBytesDouble, &sendOutUint16, sizeof(valuesUint16));
+  memcpy(sendOut + sizeInBytesDouble + sizeInBytesUint16, &sendOutUint8 ,sizeof(valuesUint8));
+
+  loRaSendMints(sendOut,sizeInBytes,5,portIn);
+
+ }
+
+}
 
 
 //  INA 219 
@@ -441,3 +560,5 @@ void resetIPS7100Mints(uint32_t secondsIn){
     delay(1000);
   } 
 }
+
+
