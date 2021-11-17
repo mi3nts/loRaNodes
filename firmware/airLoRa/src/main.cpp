@@ -9,7 +9,7 @@
 // JOIN CHECK 
 
 // ADD LORA APP KEY HERE 
-char* keyIn = "121F851628AED2A6ADC9159999CF4F3C";
+char* keyIn = "312F851628AED2A6ABF7159999CF4F3C";
 
 uint8_t numOfTries = 20; 
 
@@ -71,32 +71,32 @@ void setup()
 
   GPGGALROnline  = initializeGPGGALRMints();
   GPGGALRPeriod  = getPeriod(powerMode, "GPGGALR");
-  SerialUSB.println("GPGGALR Period");
+  SerialUSB.print("GPGGALR Period");
   SerialUSB.println(GPGGALRPeriod);
 
 
   BME280Online  = initializeBME280Mints();
   BME280Period  = getPeriod(powerMode, "BME280");
-  SerialUSB.println("BME Period");
+  SerialUSB.print("BME Period: ");
   SerialUSB.println(BME280Period);
 
   SCD30Online   =  initializeSCD30Mints(SCD30ReadTime);
   SCD30Period  = getPeriod(powerMode, "SCD30");
-  SerialUSB.println("SCD Period");
+  SerialUSB.print("SCD Period: ");
   SerialUSB.println(SCD30Period);
 
   MGS001Online  =  initializeMGS001Mints();
   MGS001Period  = getPeriod(powerMode, "MGS001");
-  SerialUSB.println("MGS Period");
+  SerialUSB.print("MGS Period: ");
   SerialUSB.println(MGS001Period);
 
   IPS7100Online =  initializeIPS7100Mints();
   IPS7100Period  = getPeriod(powerMode, "IPS7100");
-  SerialUSB.println("IPS Period");
+  SerialUSB.print("IPS Period: ");
   SerialUSB.println(IPS7100Period);
 
   SerialUSB.println("Power Mode: ");
-  SerialUSB.println(powerMode);
+  SerialUSB.print(powerMode);
 
   resetIPS7100Mints(IPS7100ResetTime);
   resetLoRaMints(numOfTries,powerMode);

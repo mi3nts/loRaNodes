@@ -5,24 +5,23 @@
 void loraInitMints(char* keyIn)
 {
   char buffer[256];
-  SerialUSB.println("LoRa Init");
+  SerialUSB.println("Initializing LoRa");
   lora.init();
   lora.setDeviceReset();
   lora.setDeviceDefault();
 
-  SerialUSB.println("Get Module Version");
+  SerialUSB.println("Module Version: ");
   memset(buffer, 0, 256);
   lora.getVersion(buffer, 256, 1);
-  SerialUSB.println("Version");
   SerialUSB.print(buffer);
 
-  SerialUSB.println("Get Lora Credentials");
+  SerialUSB.println("Lora Credentials: ");
   memset(buffer, 0, 256);
   lora.getId(buffer, 256, 1);
-  SerialUSB.println("LoRa ID");
+  SerialUSB.println("LoRa ID: ");
   SerialUSB.print(buffer);
 
-  SerialUSB.println("Setting Keys");
+  SerialUSB.println("Keys");
   // char* keyIn = "312F851628AED2A6ABF7159999CF4F3C";
   lora.setKey(NULL, NULL, keyIn);
  
@@ -40,11 +39,8 @@ void loraInitMints(char* keyIn)
   lora.setChannel(7, 914.9);
   lora.setReceiceWindowFirst(0,  927.5);
   lora.setReceiceWindowSecond(927.5, DR8);
-
-
   lora.setJoinDutyCycle(false);
 
-  // SerialUSB.println("Setting Power");
   lora.setPower(14);  //###
   lora.setPort(1);
   lora.setClassType(CLASS_A);

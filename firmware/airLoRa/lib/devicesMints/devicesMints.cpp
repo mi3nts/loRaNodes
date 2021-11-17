@@ -84,7 +84,7 @@ if (gpggalr.location.isValid())
                    gpggalr.altitude.meters(),
                    gpggalr.course.deg(),
                    gpggalr.hdop.hdop()
-    };
+    };// 42 bytes 
 
     uint16_t valuesUint16[sizeInUint16]  = {
                  gpggalr.date.year()
@@ -97,7 +97,7 @@ if (gpggalr.location.isValid())
                      gpggalr.time.second(),
                   };  
 
-  uint8_t sizeInBytesDouble= sizeof(valuesDouble);   
+  uint8_t sizeInBytesDouble = sizeof(valuesDouble);   
   uint8_t sizeInBytesUint16 = sizeof(valuesUint16);   
   uint8_t sizeInBytesUint8  = sizeof(valuesUint8);
   uint8_t sizeInBytes       =  sizeInBytesDouble + sizeInBytesUint16+ sizeInBytesUint8;
