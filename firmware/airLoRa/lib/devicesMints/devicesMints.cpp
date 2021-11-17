@@ -172,52 +172,6 @@ uint8_t getPowerMode(uint8_t powerPin)
 
 
 
-void readINA219DuoMints(){
-
-  float shuntVoltageBat  = ina219Battery.getShuntVoltage_mV();
-  float busVoltageBat    = ina219Battery.getBusVoltage_V();
-  float currentMaBat     = ina219Battery.getCurrent_mA();
-  float powerMwBat       = ina219Battery.getPower_mW();
-  
-  float shuntVoltageSol  = ina219Solar.getShuntVoltage_mV();
-  float busVoltageSol    = ina219Solar.getBusVoltage_V();
-  float currentMaSol     = ina219Solar.getCurrent_mA();
-  float powerMwSol       = ina219Solar.getPower_mW();
-
-  String readings[8] = { String(shuntVoltageBat,2) , String( busVoltageBat,2), String(currentMaBat ,2) , String(powerMwBat,2) ,
-  String(shuntVoltageSol,2) , String( busVoltageSol,2), String(currentMaSol ,2) , String(powerMwSol,2)};
-  sensorPrintMints("INA219Duo",readings,8);
-}
-
-// void initializeReboot(uint8_t rebootPin){
-//   pinMode(rebootPin, OUTPUT); 
-// }
-
-
-
-
-void readINA219DuoMintsMax(){
-  uint8_t sizeIn = 8;
-  uint8_t portIn = 3;
-  String sensorName = "INA219Duo" ;
-  float values[sizeIn]  = {
-                      ina219Battery.getShuntVoltage_mV(),
-                      ina219Battery.getBusVoltage_V(),
-                      ina219Battery.getCurrent_mA(),
-                      ina219Battery.getPower_mW(),
-                      ina219Solar.getShuntVoltage_mV(),
-                      ina219Solar.getBusVoltage_V(),
-                      ina219Solar.getCurrent_mA(),
-                      ina219Solar.getPower_mW()
-                      };
-
-  uint8_t sizeInBytes =sizeof(values);                    
-  byte sendOut[sizeInBytes];
-  memcpy(sendOut,&values,sizeof(values));
-  sensorPrintFloats(sensorName,values,sizeIn);
-  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
-  loRaSendMints(sendOut,sizeInBytes,5,portIn); 
-}
 
 uint32_t getPeriod(uint8_t powerMode, String sensorID){
   if (sensorID == "IPS7100") {
@@ -297,6 +251,45 @@ return 30000;
  
 
 
+void readINA219DuoMints(){
+
+  float shuntVoltageBat  = ina219Battery.getShuntVoltage_mV();
+  float busVoltageBat    = ina219Battery.getBusVoltage_V();
+  float currentMaBat     = ina219Battery.getCurrent_mA();
+  float powerMwBat       = ina219Battery.getPower_mW();
+  
+  float shuntVoltageSol  = ina219Solar.getShuntVoltage_mV();
+  float busVoltageSol    = ina219Solar.getBusVoltage_V();
+  float currentMaSol     = ina219Solar.getCurrent_mA();
+  float powerMwSol       = ina219Solar.getPower_mW();
+
+  String readings[8] = { String(shuntVoltageBat,2) , String( busVoltageBat,2), String(currentMaBat ,2) , String(powerMwBat,2) ,
+  String(shuntVoltageSol,2) , String( busVoltageSol,2), String(currentMaSol ,2) , String(powerMwSol,2)};
+  sensorPrintMints("INA219Duo",readings,8);
+}
+
+void readINA219DuoMintsMax(){
+  uint8_t sizeIn = 8;
+  uint8_t portIn = 3;
+  String sensorName = "INA219Duo" ;
+  float values[sizeIn]  = {
+                      ina219Battery.getShuntVoltage_mV(),
+                      ina219Battery.getBusVoltage_V(),
+                      ina219Battery.getCurrent_mA(),
+                      ina219Battery.getPower_mW(),
+                      ina219Solar.getShuntVoltage_mV(),
+                      ina219Solar.getBusVoltage_V(),
+                      ina219Solar.getCurrent_mA(),
+                      ina219Solar.getPower_mW()
+                      };
+
+  uint8_t sizeInBytes =sizeof(values);                    
+  byte sendOut[sizeInBytes];
+  memcpy(sendOut,&values,sizeof(values));
+  sensorPrintFloats(sensorName,values,sizeIn);
+  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+  loRaSendMints(sendOut,sizeInBytes,5,portIn); 
+}
 
 
 //  BME280
@@ -334,36 +327,6 @@ void readBME280MintsMax()
   sensorPrintBytes(sensorName,sendOut,sizeInBytes);
   loRaSendMints(sendOut,sizeInBytes,5,portIn); 
 }
-
-// void readBME280Mints(){
-//   float values[3]  = {
-//                       bme280.getTemperature(),
-//                       bme280.getPressure()/100,
-//                       bme280.getHumidity()
-//                       };
-  
-//   unsigned long final = minMaxFloat2ULongMints(10*values[0]+40,0,1000) << 20 | 
-//                         minMaxFloat2ULongMints(10*values[1]+40,0,1000) << 10 | 
-//                         minMaxFloat2ULongMints(10*values[2],0,1000) ;
-  
-//   String readings[4] = {
-//                          String(values[0],2) ,
-//                          String(values[1],2) ,
-//                          String(values[2],2) ,
-//                          String(final,2)
-//                          };
-//   // byte sendOut[4] = { 
-//   //                     minMaxFloatMints(2*values[0]+ 81,1,241),
-//   //                     minMaxFloatMints((values[1]-96000)/24 +1,1,251),
-//   //                     minMaxFloatMints(2*values[2]+1,1,201)
-//   //                     };
-  
-
-
-//   sensorPrintMints("BME280",readings,4);
-  // loRaSendMints(sendOut,sizeInBytes,5,portIn); 
-// }
-
 
 // // MGS001  ---------------------------------------
 
@@ -405,50 +368,6 @@ void readMGS001MintsMax(){
 }
 
 
-
-// void readMGS001Mints(){
-  
-//   float values[8]  = {
-//                         gas.measure_C2H5OH(),
-//                         gas.measure_C3H8(),
-//                         gas.measure_C4H10(),
-//                         gas.measure_CH4(),
-//                         gas.measure_CO(),
-//                         gas.measure_H2(),
-//                         gas.measure_NH3(),
-//                         gas.measure_NO2()
-//                         };
-
-//   byte sendOut[8] = {
-//                      minMaxFloatMints(values[0]/4+1,1,251),
-//                      minMaxFloatMints(values[1]/4+1,1,251),
-//                      minMaxFloatMints((values[2]-5000)/60+1,1,251),
-//                      minMaxFloatMints(values[3]/40+1,1,251),
-//                      minMaxFloatMints(values[4]/4+1,1,251),
-//                      minMaxFloatMints(values[5]/40000,1,251),
-//                      minMaxFloatMints(values[6]*5000+1,1,251),
-//                      minMaxFloatMints(values[7]/12+1,1,251),
-//                     };
-  
-//   String readings[16] = {
-//                          String(values[0],2), String(sendOut[0]),
-//                          String(values[1],2), String(sendOut[1]),
-//                          String(values[2],2), String(sendOut[2]),
-//                          String(values[3],2), String(sendOut[3]),
-//                          String(values[4],2), String(sendOut[4]),
-//                          String(values[5],2), String(sendOut[5]),
-//                          String(values[6],2), String(sendOut[6]),
-//                          String(values[7],2), String(sendOut[7]),
-//                          };
-
-//   sensorPrintMints("MGS001",readings,16);
-//   loRaSendMints(sendOut,8,5,31); 
-
-// }
-
-
-
-
 // SCD30 ---------------------------------------
 bool initializeSCD30Mints(uint16_t scdPeriod ){
   if (scd.begin()) {
@@ -477,13 +396,16 @@ void readSCD30MintsMax(){
                       scd.getHumidity()
                       };
 
-  uint8_t sizeInBytes = sizeof(values);                    
-  byte sendOut[sizeInBytes];
-  memcpy(sendOut,&values,sizeof(values));
-  sensorPrintFloats(sensorName,values,sizeIn);
-  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
-  loRaSendMints(sendOut,sizeInBytes,5,portIn); 
-}
+
+    uint8_t sizeInBytes = sizeof(values);                    
+    byte sendOut[sizeInBytes];
+    memcpy(sendOut,&values,sizeof(values));
+    sensorPrintFloats(sensorName,values,sizeIn);
+    sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+    if (values[0] >  0 ){
+      loRaSendMints(sendOut,sizeInBytes,5,portIn); 
+    }
+  }
 
 
 // // IPS7100 ---------------------------------------
@@ -549,7 +471,11 @@ void readIPS7100MintsMax(){
             SerialUSB.println(" ");                 
 
   sensorPrintBytes(sensorName,sendOut,sizeInBytes);
-  loRaSendMints(sendOut,sizeInBytes,5,portIn);
+  
+    if (valuesPC[0] >  0 ){
+      loRaSendMints(sendOut,sizeInBytes,5,portIn); 
+    }
+
 }
 
 

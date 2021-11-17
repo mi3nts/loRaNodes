@@ -77,10 +77,13 @@ void loraInitMints(char* keyIn)
   delay (120000);
 }
 
-void resetLoRaMints(uint32_t secondsIn){
+void resetLoRaMints(uint8_t numOfTrysIn,uint8_t powerMode){
   byte sendOut[1];
-  for (uint16_t  cT = 1 ;cT<secondsIn ; cT++){
-     if(lora.transferPacketCheck(sendOut,1,5)){
+  uint8_t portIn = 2;
+  lora.setPort(portIn);
+  memcpy(sendOut,&powerMode,1);
+  for (uint16_t  cT = 1 ;cT<numOfTrysIn ; cT++){
+     if(lora.transferPacketCheck(sendOut,2,5)){
         SerialUSB.println("Gateway Contacted");
        break;
      }

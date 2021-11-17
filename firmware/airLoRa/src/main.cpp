@@ -98,8 +98,8 @@ void setup()
   SerialUSB.println("Power Mode: ");
   SerialUSB.println(powerMode);
 
-  // resetIPS7100Mints(IPS7100ResetTime);
-  resetLoRaMints(numOfTries);
+  resetIPS7100Mints(IPS7100ResetTime);
+  resetLoRaMints(numOfTries,powerMode);
 }
 
 void loop()
@@ -108,7 +108,7 @@ void loop()
       { 
         readINA219DuoMintsMax();
         INA219DuoTime  = millis();
-        delay(2500); 
+        // delay(2500); 
       }
 
 
@@ -116,14 +116,14 @@ void loop()
       { 
         readBME280MintsMax();
         BME280Time  = millis();
-        delay(2500);
+        // delay(2500);
       }
       
       if(readNow(IPS7100Online,IPS7100Time,IPS7100Period))
       {
         readIPS7100MintsMax();
         IPS7100Time  = millis();
-        delay(2500);
+        // delay(2500);
       }
 
 
@@ -131,7 +131,7 @@ void loop()
       { 
         readSCD30MintsMax();
         SCD30Time  = millis();
-        delay(2500);
+        // delay(2500);
         }
       
 
@@ -139,28 +139,28 @@ void loop()
       {
         readIPS7100MintsMax();
         IPS7100Time  = millis();
-        delay(2500);
+        // delay(2500);
       }
 
       if(readNow(MGS001Online,MGS001Time,MGS001Period))
       { 
         readMGS001MintsMax();
         MGS001Time  = millis();
-        delay(2500); 
+        // delay(2500); 
       }
 
       if(readNow(GPGGALROnline,GPGGALRTime,GPGGALRPeriod))
       { 
         readGPGGALRMintsMax();
         GPGGALRTime  = millis();
-        delay(2500); 
+        // delay(2500); 
       }
 
 
   // checkReboot(powerMode,rebootPin);
-  // lora.setDeviceLowPower();    // bring the LoRaWAN module to sleep mode
 
 }
 
 
+  // lora.setDeviceLowPower();    // bring the LoRaWAN module to sleep mode
 
