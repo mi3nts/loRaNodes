@@ -4,12 +4,8 @@
 #include "loRaMints.h"
 #include "LoRaWan.h"
 
-// GET THE FREQUENCIES CORRECT
-// FIGURE OUT THE GPS
-// JOIN CHECK 
-
 // ADD LORA APP KEY HERE 
-char* keyIn = "312F851628AED2A6ABF7159999CF4F3C";
+char* keyIn = "A12F811628AED2A6ABF7159999CF4F3C";
 
 uint8_t numOfTries = 20; 
 
@@ -54,11 +50,9 @@ uint32_t IPS7100Period   ;
 uint32_t GPGGALRPeriod   ;
 uint32_t INA219DuoPeriod ;
 
-// uint32_t startTime;
 
 void setup()
 { 
-  // startTime  = millis();
   initializeSerialMints();
   initializeReboot(rebootPin);
   delay(10000);
@@ -71,7 +65,7 @@ void setup()
 
   GPGGALROnline  = initializeGPGGALRMints();
   GPGGALRPeriod  = getPeriod(powerMode, "GPGGALR");
-  SerialUSB.print("GPGGALR Period");
+  SerialUSB.print("GPGGALR Period: ");
   SerialUSB.println(GPGGALRPeriod);
 
 
@@ -95,8 +89,8 @@ void setup()
   SerialUSB.print("IPS Period: ");
   SerialUSB.println(IPS7100Period);
 
-  SerialUSB.println("Power Mode: ");
-  SerialUSB.print(powerMode);
+  SerialUSB.print("Power Mode: ");
+  SerialUSB.println(powerMode);
 
   resetIPS7100Mints(IPS7100ResetTime);
   resetLoRaMints(numOfTries,powerMode);
@@ -157,7 +151,7 @@ void loop()
       }
 
 
-  // checkReboot(powerMode,rebootPin);
+  checkReboot(powerMode,rebootPin);
 
 }
 

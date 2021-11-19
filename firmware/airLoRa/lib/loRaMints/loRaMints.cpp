@@ -10,22 +10,21 @@ void loraInitMints(char* keyIn)
   lora.setDeviceReset();
   lora.setDeviceDefault();
 
-  SerialUSB.println("Module Version: ");
+  SerialUSB.println("Module Version:");
   memset(buffer, 0, 256);
   lora.getVersion(buffer, 256, 1);
   SerialUSB.print(buffer);
 
-  SerialUSB.println("Lora Credentials: ");
+  SerialUSB.println("Lora Credentials:");
   memset(buffer, 0, 256);
   lora.getId(buffer, 256, 1);
-  SerialUSB.println("LoRa ID: ");
+  SerialUSB.println("LoRa IDs: ");
   SerialUSB.print(buffer);
 
-  SerialUSB.println("Keys");
-  // char* keyIn = "312F851628AED2A6ABF7159999CF4F3C";
+  SerialUSB.println("Lora App Key:");
   lora.setKey(NULL, NULL, keyIn);
  
-  SerialUSB.println("Setting LWOTAA Mode");
+  SerialUSB.println("Network Settings:");
   lora.setDeciveMode(LWOTAA);
   lora.setDataRate(DR3, US915);
   
@@ -44,6 +43,7 @@ void loraInitMints(char* keyIn)
   lora.setPower(14);  //###
   lora.setPort(1);
   lora.setClassType(CLASS_A);
+
   SerialUSB.println("Starting Join");
  
   for (uint8_t i = 1; i <= 10; i++) {{
@@ -51,7 +51,7 @@ void loraInitMints(char* keyIn)
       SerialUSB.println("Setup Complete");
       return;
   }}}
-    SerialUSB.println("No gateway found 1");
+    SerialUSB.println("No gateway found: Step 1");
     SerialUSB.println("Delay 1: 1 Minute");
     delay (60000);
   for (uint8_t i = 1; i <= 10; i++) {{
@@ -59,21 +59,22 @@ void loraInitMints(char* keyIn)
       SerialUSB.println("Setup Complete");
       return;
   }}} 
-    SerialUSB.println("No gateway found 2");
-    SerialUSB.println("Delay 2: 2 Minute");
+    SerialUSB.println("No gateway found: Step 2");
+    SerialUSB.println("Delay 2: 2 Minutes");
     delay (120000);
   for (uint8_t i = 1; i <= 10; i++) {{
      if(lora.setOTAAJoin(JOIN, 10)){
       SerialUSB.println("Setup Complete");
       return;
   }}} 
-  SerialUSB.println("No gateway found 2");
-  SerialUSB.println("Sleeping");
+  SerialUSB.println("No gateway found: Step 3");
+  SerialUSB.println("Sleeping Module");
   rebootBoard(rebootPin);
   delay (120000);
 }
 
 void resetLoRaMints(uint8_t numOfTrysIn,uint8_t powerMode){
+  SerialUSB.println("Sending Initial Packets");
   byte sendOut[1];
   uint8_t portIn = 2;
   lora.setPort(portIn);
@@ -83,7 +84,6 @@ void resetLoRaMints(uint8_t numOfTrysIn,uint8_t powerMode){
         SerialUSB.println("Gateway Contacted");
        break;
      }
-    // delay(1000);
   } 
 }
 

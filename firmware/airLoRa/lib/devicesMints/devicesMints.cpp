@@ -28,7 +28,7 @@ SerialUSB.println(gpggalr.hdop.isValid());
 SerialUSB.print("HDOP: ");
 SerialUSB.println(gpggalr.hdop.hdop());
 
-SerialUSB.print("Location Validity");
+SerialUSB.print("Location Validity: ");
 SerialUSB.println(gpggalr.location.isValid());
 SerialUSB.print("Latitude: ");
 SerialUSB.println(gpggalr.location.lat(),10);
@@ -333,12 +333,10 @@ void readBME280MintsMax()
 bool initializeMGS001Mints(){
 
   gas.begin(0x04);//the default I2C address of the slave is 0x04
-  
-  SerialUSB.println("MGS001 ON");
   gas.powerOn();
   SerialUSB.println("MGS001 Initiated");
-  SerialUSB.print("MGS001 Firmware Version = ");
-  SerialUSB.println(gas.getVersion());
+  // SerialUSB.print("MGS001 Firmware Version = ");
+  // SerialUSB.println(gas.getVersion());
   delay(1);
 
 return true;
@@ -373,11 +371,8 @@ bool initializeSCD30Mints(uint16_t scdPeriod ){
   if (scd.begin()) {
     delay(10);
     scd.setMeasurementInterval(scdPeriod);
-    delay(10);
-    SerialUSB.println("SCD30 Measurement Interval: ");
-    SerialUSB.println(scd.getMeasurementInterval()); SerialUSB.print(" Seconds");
-    SerialUSB.println("SCD30 Initiated");
     delay(1);
+    SerialUSB.println("SCD30 Initiated");
     return true;
   }else{
     SerialUSB.println("SCD30 not found");
