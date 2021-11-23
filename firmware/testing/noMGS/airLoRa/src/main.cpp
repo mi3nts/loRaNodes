@@ -79,7 +79,8 @@ void setup()
   SerialUSB.print("SCD Period: ");
   SerialUSB.println(SCD30Period);
 
-  MGS001Online  =  initializeMGS001Mints();
+  // MGS001Online  =  initializeMGS001Mints();
+  MGS001Online  =  false;
   MGS001Period  = getPeriod(powerMode, "MGS001");
   SerialUSB.print("MGS Period: ");
   SerialUSB.println(MGS001Period);
@@ -98,7 +99,7 @@ void setup()
 
 void loop()
 {
-        if(readNow(INA219DuoOnline,INA219DuoTime,INA219DuoPeriod))
+      if(readNow(INA219DuoOnline,INA219DuoTime,INA219DuoPeriod))
       { 
         readINA219DuoMintsMax();
         INA219DuoTime  = millis();

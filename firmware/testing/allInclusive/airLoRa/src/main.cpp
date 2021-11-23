@@ -98,7 +98,7 @@ void setup()
 
 void loop()
 {
-        if(readNow(INA219DuoOnline,INA219DuoTime,INA219DuoPeriod))
+       if(readNow(INA219DuoOnline,INA219DuoTime,INA219DuoPeriod))
       { 
         readINA219DuoMintsMax();
         INA219DuoTime  = millis();
@@ -121,7 +121,6 @@ void loop()
         // delay(2500);
       }
       
-
 
       if(readNow(SCD30Online,SCD30Time,SCD30Period))
       { 
