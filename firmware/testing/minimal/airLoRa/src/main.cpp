@@ -5,7 +5,7 @@
 #include "LoRaWan.h"
 
 // ADD LORA APP KEY HERE 
-char* keyIn = "24C14358B8C582751E79D91F5717E4B8";
+char* keyIn = "BA2C989028ABC216FBB7159909CE3F34";
 
 uint8_t numOfTries = 20; 
 
@@ -50,12 +50,13 @@ uint32_t IPS7100Period   ;
 uint32_t GPGGALRPeriod   ;
 uint32_t INA219DuoPeriod ;
 
+bool initial = true;
 
 void setup()
 { 
   initializeSerialMints();
   initializeReboot(rebootPin);
-  delay(10000);
+  delay(100);
   INA219DuoOnline =  initializeINA219DuoMints();
   powerMode       =  getPowerMode(rebootPin);
 
@@ -68,21 +69,10 @@ void setup()
   SerialUSB.print("GPGGALR Period: ");
   SerialUSB.println(GPGGALRPeriod);
 
-
   BME280Online  = initializeBME280Mints();
   BME280Period  = getPeriod(powerMode, "BME280");
   SerialUSB.print("BME Period: ");
   SerialUSB.println(BME280Period);
-
-  SCD30Online   =  initializeSCD30Mints(SCD30ReadTime);
-  SCD30Period  = getPeriod(powerMode, "SCD30");
-  SerialUSB.print("SCD Period: ");
-  SerialUSB.println(SCD30Period);
-
-  MGS001Online  =  initializeMGS001Mints();
-  MGS001Period  = getPeriod(powerMode, "MGS001");
-  SerialUSB.print("MGS Period: ");
-  SerialUSB.println(MGS001Period);
 
   IPS7100Online =  initializeIPS7100Mints();
   IPS7100Period  = getPeriod(powerMode, "IPS7100");
@@ -94,74 +84,40 @@ void setup()
 
   resetIPS7100Mints(IPS7100ResetTime);
   resetLoRaMints(numOfTries,powerMode);
+  delay(5000);
 }
+
+
 
 void loop()
 {
-       if(readNow(INA219DuoOnline,INA219DuoTime,INA219DuoPeriod))
-      { 
-        readINA219DuoMintsMax();
-        INA219DuoTime  = millis();
-        // delay(2500); 
-      }
-
-
-      if(readNow(IPS7100Online,IPS7100Time,IPS7100Period))
+      if(readNow(IPS7100Online,IPS7100Time,IPS7100Period,initial))
       {
         readIPS7100MintsMax();
         IPS7100Time  = millis();
-        // delay(2500);
+        delay(5000);
       }
-
-
-    if(readNow(BME280Online,BME280Time,BME280Period))
+      if(readNow(BME280Online,BME280Time,BME280Period,initial))
       { 
         readBME280MintsMax();
         BME280Time  = millis();
-        // delay(2500);
+        delay(5000);
       }
-      
-
-      if(readNow(SCD30Online,SCD30Time,SCD30Period))
-      { 
-        readSCD30MintsMax();
-        SCD30Time  = millis();
-        // delay(2500);
-        }
-      
-
-      if(readNow(IPS7100Online,IPS7100Time,IPS7100Period))
-      {
-        readIPS7100MintsMax();
-        IPS7100Time  = millis();
-        // delay(2500);
-      }
-
-
-      if(readNow(BME280Online,BME280Time,BME280Period))
-      { 
-        readBME280MintsMax();
-        BME280Time  = millis();
-        // delay(2500);
-      }
-      
-      if(readNow(MGS001Online,MGS001Time,MGS001Period))
-      { 
-        readMGS001MintsMax();
-        MGS001Time  = millis();
-        // delay(2500); 
-      }
-
-      if(readNow(GPGGALROnline,GPGGALRTime,GPGGALRPeriod))
+      if(readNow(GPGGALROnline,GPGGALRTime,GPGGALRPeriod,initial))
       { 
         readGPGGALRMintsMax();
         GPGGALRTime  = millis();
-        // delay(2500); 
+        delay(5000); 
+      }
+      if(readNow(INA219DuoOnline,INA219DuoTime,INA219DuoPeriod,initial))
+      { 
+        readINA219DuoMintsMax();
+        INA219DuoTime  = millis();
+         delay(5000); 
       }
 
-
-  checkReboot(powerMode,rebootPin);
-
+    initial = false; 
+    checkReboot(powerMode,rebootPin);
 }
 
 
