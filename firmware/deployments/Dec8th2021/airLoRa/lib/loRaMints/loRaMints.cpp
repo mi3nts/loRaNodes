@@ -2,7 +2,7 @@
 
 
 
-void loraInitMints(char* keyIn)
+void loraInitMints(char* keyIn,uint8_t powerMode,uint8_t rebootPin)
 {  SerialUSB.println(" ");
   char buffer[256];
   SerialUSB.println("Initializing LoRa");
@@ -26,7 +26,7 @@ void loraInitMints(char* keyIn)
  
   SerialUSB.println("Network Settings:");
   lora.setDeciveMode(LWOTAA);
-  lora.setDataRate(DR3, US915);
+  lora.setDataRate(DR2, US915);
   
   lora.setChannel(0, 913.5);
   lora.setChannel(1, 913.7);
@@ -61,6 +61,17 @@ void loraInitMints(char* keyIn)
   }}} 
     SerialUSB.println("No gateway found: Step 2");
     SerialUSB.println("Delay 2: 2 Minutes");
+    if(powerMode == 0){
+      rebootBoard(rebootPin);
+    }
+    if(powerMode == 4){
+      rebootBoard(rebootPin);
+    }
+    if(powerMode == 5){
+      rebootBoard(rebootPin);
+    }
+
+
     delay (120000);
   for (uint8_t i = 1; i <= 10; i++) {{
      if(lora.setOTAAJoin(JOIN, 10)){
@@ -161,6 +172,7 @@ void rebootBoard(uint8_t rebootPin){
     delay(1);
     digitalWrite(rebootPin, LOW);
     delay(1);
+    delay(1000000);
 }
 
 bool readNow(bool sensorOnline,uint32_t startIn,uint32_t periodIn,bool initialIn){
@@ -172,19 +184,48 @@ bool readNow(bool sensorOnline,uint32_t startIn,uint32_t periodIn,bool initialIn
 }
 
 void checkReboot(uint8_t powerModeIn,uint8_t rebootPinIn){
-  if((powerModeIn == 1) && (millis() > 450) ){
-    rebootBoard(rebootPinIn); // Halt the board in the day after 7.5 minutes
-    delay(1000000);
-  }
-  if((powerModeIn == 2) && (millis() > 360) ){
+  if((powerModeIn == 1) && (millis() > 360000) ){
     rebootBoard(rebootPinIn); // Halt the board in the day after 6 minutes
-    delay(1000000);
+  }
+  if((powerModeIn == 2) && (millis() > 300000) ){
+    rebootBoard(rebootPinIn); // Halt the board in the day after 5 minutes
   }
 
-  if((powerModeIn == 0) && (millis() > 360) ){
+  
+}
+
+void checkRebootCycle(uint8_t powerModeIn,uint8_t rebootPinIn,uint8_t numOfCycles){
+
+  if(powerModeIn == 0){
     rebootBoard(rebootPinIn); // Halt the board in the day after 6 minutes
-    delay(1000000);
+  }
+  if((powerModeIn == 1) && (millis() > 360000) ){
+    rebootBoard(rebootPinIn); // Halt the board in the day after 6 minutes
+  }
+  if((powerModeIn == 2) && (millis() > 300000) ){
+    rebootBoard(rebootPinIn); // Halt the board in the day after 5 minutes
+  }
+  if((powerModeIn == 3) && (millis() > 900000) ){
+    delay(900000);// Reboot the board after 15 minutes
+    rebootBoard(rebootPinIn); // Halt the board in the day after 15 minutes
+  }
+  if((powerModeIn == 4) && (numOfCycles >0))
+  {
+    rebootBoard(rebootPinIn); // Halt the board after 1 cycle
+  }
+  if((powerModeIn == 5) && (numOfCycles >0))
+  {
+    rebootBoard(rebootPinIn); // Halt the board after 1 cycle
+  }
+  if((powerModeIn == 6) && (numOfCycles >1))
+  {
+    rebootBoard(rebootPinIn); // Halt the board after 2 cycles
+  }
+  if((powerModeIn == 7) && (numOfCycles >1))
+  
+  {    
+    rebootBoard(rebootPinIn); // Halt the board after 2 cycles
   }
 
-
+  
 }

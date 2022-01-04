@@ -69,56 +69,56 @@ SerialUSB.println(gpggalr.speed.kmph());
 SerialUSB.print("Altitude: ");
 SerialUSB.println(gpggalr.altitude.meters());
 
-// if (gpggalr.location.isValid())
-//   {
-//     uint8_t portIn       = 5;
-//     uint8_t sizeInDouble = 6;
-//     uint8_t sizeInUint16 = 1;
-//     uint8_t sizeInUint8  = 5;
+if (gpggalr.location.isValid())
+  {
+    uint8_t portIn       = 5;
+    uint8_t sizeInDouble = 6;
+    uint8_t sizeInUint16 = 1;
+    uint8_t sizeInUint8  = 5;
     
-//     String sensorName = "GPGGALR" ;
-//     double valuesDouble[sizeInDouble]  = {
-//                    gpggalr.location.lat(),
-//                    gpggalr.location.lng(),
-//                    gpggalr.speed.kmph(),
-//                    gpggalr.altitude.meters(),
-//                    gpggalr.course.deg(),
-//                    gpggalr.hdop.hdop()
-//     };// 42 bytes 
+    String sensorName = "GPGGALR" ;
+    double valuesDouble[sizeInDouble]  = {
+                   gpggalr.location.lat(),
+                   gpggalr.location.lng(),
+                   gpggalr.speed.kmph(),
+                   gpggalr.altitude.meters(),
+                   gpggalr.course.deg(),
+                   gpggalr.hdop.hdop()
+    };// 42 bytes 
 
-//     uint16_t valuesUint16[sizeInUint16]  = {
-//                  gpggalr.date.year()
-//     };
-//     uint8_t valuesUint8[sizeInUint8]  = {
-//                      gpggalr.date.month(),
-//                      gpggalr.date.day(),
-//                      gpggalr.time.hour(),
-//                      gpggalr.time.minute(),
-//                      gpggalr.time.second(),
-//                   };  
+    uint16_t valuesUint16[sizeInUint16]  = {
+                 gpggalr.date.year()
+    };
+    uint8_t valuesUint8[sizeInUint8]  = {
+                     gpggalr.date.month(),
+                     gpggalr.date.day(),
+                     gpggalr.time.hour(),
+                     gpggalr.time.minute(),
+                     gpggalr.time.second(),
+                  };  
 
-//   // uint8_t sizeInBytesDouble = sizeof(valuesDouble);   
-//   // uint8_t sizeInBytesUint16 = sizeof(valuesUint16);   
-//   // uint8_t sizeInBytesUint8  = sizeof(valuesUint8);
-//   // uint8_t sizeInBytes       =  sizeInBytesDouble + sizeInBytesUint16+ sizeInBytesUint8;
+  uint8_t sizeInBytesDouble = sizeof(valuesDouble);   
+  uint8_t sizeInBytesUint16 = sizeof(valuesUint16);   
+  uint8_t sizeInBytesUint8  = sizeof(valuesUint8);
+  uint8_t sizeInBytes       =  sizeInBytesDouble + sizeInBytesUint16+ sizeInBytesUint8;
 
-//   // byte sendOutDouble[sizeInBytesDouble];
-//   // byte sendOutUint16[sizeInBytesUint16];
-//   // byte sendOutUint8[sizeInBytesUint8];
+  byte sendOutDouble[sizeInBytesDouble];
+  byte sendOutUint16[sizeInBytesUint16];
+  byte sendOutUint8[sizeInBytesUint8];
   
-//   // byte sendOut[sizeInBytes];
+  byte sendOut[sizeInBytes];
 
-//   // memcpy(sendOutDouble,&valuesDouble,sizeof(valuesDouble));
-//   // memcpy(sendOutUint16,&valuesUint16,sizeof(valuesUint16));
-//   // memcpy(sendOutUint8,&valuesUint8,sizeof(valuesUint8));
+  memcpy(sendOutDouble,&valuesDouble,sizeof(valuesDouble));
+  memcpy(sendOutUint16,&valuesUint16,sizeof(valuesUint16));
+  memcpy(sendOutUint8,&valuesUint8,sizeof(valuesUint8));
 
-//   // memcpy(sendOut, &sendOutDouble, sizeof(valuesDouble));
-//   // memcpy(sendOut + sizeInBytesDouble, &sendOutUint16, sizeof(valuesUint16));
-//   // memcpy(sendOut + sizeInBytesDouble + sizeInBytesUint16, &sendOutUint8 ,sizeof(valuesUint8));
+  memcpy(sendOut, &sendOutDouble, sizeof(valuesDouble));
+  memcpy(sendOut + sizeInBytesDouble, &sendOutUint16, sizeof(valuesUint16));
+  memcpy(sendOut + sizeInBytesDouble + sizeInBytesUint16, &sendOutUint8 ,sizeof(valuesUint8));
 
-  // loRaSendMints(sendOut,sizeInBytes,5,portIn);
+  loRaSendMints(sendOut,sizeInBytes,5,portIn);
 
-//  }
+ }
 
 }
 
@@ -153,99 +153,79 @@ uint8_t getPowerMode(uint8_t powerPin)
                           String( busVoltageSol,2)};
   sensorPrintMints("INA219Duo",readings,2);
 
-  if (abs(busVoltageBat) < 3.00 & abs(busVoltageSol) < 5.5 ) 
+  if (abs(busVoltageBat) <= 3.3 ) 
   {
-    // rebootBoard(powerPin);
+    rebootBoard(powerPin);
     return 0;
   }
-   else if (abs(busVoltageBat)< 3.00 & abs(busVoltageSol)> 5.5) {
-   return 1;
+
+  if ((abs(busVoltageBat))> 3.3 && (abs(busVoltageBat)<= 3.5)) {
+    return 4;
   }
-  else if (abs(busVoltageBat) > 3.00 & abs(busVoltageSol) < 5.5)  {
-  return 2;
-  }
-  else
+
+  if (abs(busVoltageBat) > 4.00)
   {
-   return 3;
+    if (abs(busVoltageSol) > 5 ){
+        return 3;
+    }else{
+      return 7;
+    }
   }
+
+
+  if (abs(busVoltageBat)> 3.5 && abs(busVoltageBat)<= 4)  {
+    if (abs(busVoltageSol)<=5)
+    {
+      return 5;
+    }else
+    {
+      return 6;
+    }
+  }
+    rebootBoard(powerPin);
+    return 0 ;
+       
 }
 
 
 
-
-uint32_t getPeriod(uint8_t powerMode, String sensorID){
+uint32_t getPeriod(uint8_t powerMode, String sensorID)
+{
   if (sensorID == "IPS7100") {
-    
-    if (powerMode == 1 ){
-      return 30000; 
-    }
-    if (powerMode == 2 ){
-      return 30000; 
-    }
-    if (powerMode == 3 ){
-      return 20000; 
+    if (powerMode == 3){
+    return 60000; 
+    }else
+    {
+    return 120000; 
     }
   }
   if (sensorID == "BME280") {
-    if (powerMode== 1 ){
-      return 45000; 
-    }
-    if (powerMode  == 2 ){
-      return 45000; 
-    }
-    if (powerMode  == 3 ){
-      return 30000; 
-    }
-  }
-  if (sensorID == "SCD30") {
-    if (powerMode  == 1 ){
-      return 60000; 
-    }
-    if (powerMode == 2 ){
-      return 60000; 
-    }
-    if (powerMode  == 3 ){
-      return 30000; 
-    }
-  }
-
-  if (sensorID == "MGS001") {
-    if (powerMode  == 1 ){
-      return 60000; 
-    }
-    if (powerMode  == 2 ){
-      return 60000; 
-    }
-    if (powerMode  == 3 ){
-      return 30000; 
+    if (powerMode == 3 ){
+    return 60000; 
+    }else
+    {
+    return 120000; 
     }
   }
 
   if (sensorID == "INA219Duo") {
-    if (powerMode  == 1 ){
-      return 240000; // 4 Minutes 
-    }
-    if (powerMode  == 2 ){
-      return 240000; 
-    }
-    if (powerMode  == 3 ){
-      return 180000; 
+    if (powerMode == 3 ){
+    return 180000; 
+    }else
+    {
+    return 240000; 
     }
   }
 
   if (sensorID == "GPGGALR") {
-    if (powerMode  == 1 ){
-      return 240000; 
-    }
-    if (powerMode == 2 ){
-      return 240000; 
-    }
     if (powerMode == 3 ){
-      return 180000; 
+    return 180000; 
+    }else
+    {
+    return 240000; 
     }
   }
-
-return 30000;
+return 3000000;
 
 } // End of Period Seek 
  
@@ -287,8 +267,8 @@ void readINA219DuoMintsMax(){
   byte sendOut[sizeInBytes];
   memcpy(sendOut,&values,sizeof(values));
   sensorPrintFloats(sensorName,values,sizeIn);
-  // sensorPrintBytes(sensorName,sendOut,sizeInBytes);
-  // loRaSendMints(sendOut,sizeInBytes,5,portIn); 
+  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+  loRaSendMints(sendOut,sizeInBytes,5,portIn); 
 }
 
 
@@ -324,8 +304,8 @@ void readBME280MintsMax()
   byte sendOut[sizeInBytes];
   memcpy(sendOut,&values,sizeof(values));
   sensorPrintFloats(sensorName,values,sizeIn);
-  // sensorPrintBytes(sensorName,sendOut,sizeInBytes);
-  // loRaSendMints(sendOut,sizeInBytes,5,portIn); 
+  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+  loRaSendMints(sendOut,sizeInBytes,5,portIn); 
 }
 
 // // MGS001  ---------------------------------------
@@ -361,8 +341,8 @@ void readMGS001MintsMax(){
   byte sendOut[sizeInBytes];
   memcpy(sendOut,&values,sizeof(values));
   sensorPrintFloats(sensorName,values,sizeIn);
-  // sensorPrintBytes(sensorName,sendOut,sizeInBytes);
-  // loRaSendMints(sendOut,sizeInBytes,5,portIn); 
+  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+  loRaSendMints(sendOut,sizeInBytes,5,portIn); 
 }
 
 
@@ -396,9 +376,9 @@ void readSCD30MintsMax(){
     byte sendOut[sizeInBytes];
     memcpy(sendOut,&values,sizeof(values));
     sensorPrintFloats(sensorName,values,sizeIn);
-    // sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+    sensorPrintBytes(sensorName,sendOut,sizeInBytes);
     if (values[0] >  0 ){
-      // loRaSendMints(sendOut,sizeInBytes,5,portIn); 
+      loRaSendMints(sendOut,sizeInBytes,5,portIn); 
     }
   }
 
@@ -440,35 +420,35 @@ void readIPS7100MintsMax(){
                       };
 
 
-  // uint8_t sizeInBytesPC = sizeof(valuesPC);   
-  // uint8_t sizeInBytesPM = sizeof(valuesPM);   
-  // uint8_t sizeInBytes = sizeof(valuesPC) + sizeof(valuesPM);  
+  uint8_t sizeInBytesPC = sizeof(valuesPC);   
+  uint8_t sizeInBytesPM = sizeof(valuesPM);   
+  uint8_t sizeInBytes = sizeof(valuesPC) + sizeof(valuesPM);  
 
-  // byte sendOutPC[sizeInBytesPC];
-  // byte sendOutPM[sizeInBytesPM];
-  // byte sendOut[sizeInBytes];
+  byte sendOutPC[sizeInBytesPC];
+  byte sendOutPM[sizeInBytesPM];
+  byte sendOut[sizeInBytes];
 
-  // memcpy(sendOutPC,&valuesPC,sizeof(valuesPC));
-  // memcpy(sendOutPM,&valuesPM,sizeof(valuesPM));
+  memcpy(sendOutPC,&valuesPC,sizeof(valuesPC));
+  memcpy(sendOutPM,&valuesPM,sizeof(valuesPM));
 
 
 
-  // memcpy(sendOut, &sendOutPC, sizeof(valuesPC));
-  // memcpy(sendOut + sizeInBytesPC, &sendOutPM, sizeof(valuesPC));
+  memcpy(sendOut, &sendOutPC, sizeof(valuesPC));
+  memcpy(sendOut + sizeInBytesPC, &sendOutPM, sizeof(valuesPC));
 
   sensorPrintULongs(sensorName,valuesPC,sizeIn);
         SerialUSB.println(" ");
   sensorPrintFloats(sensorName,valuesPM,sizeIn);
         SerialUSB.println(" ");
-  // sensorPrintBytes(sensorName,sendOutPC,sizeInBytesPC);
-  //       SerialUSB.println(" ");
-  // sensorPrintBytes(sensorName,sendOutPM,sizeInBytesPM);
-  //           SerialUSB.println(" ");                 
+  sensorPrintBytes(sensorName,sendOutPC,sizeInBytesPC);
+        SerialUSB.println(" ");
+  sensorPrintBytes(sensorName,sendOutPM,sizeInBytesPM);
+            SerialUSB.println(" ");                 
 
-  // sensorPrintBytes(sensorName,sendOut,sizeInBytes);
+  sensorPrintBytes(sensorName,sendOut,sizeInBytes);
   
     if (valuesPC[0] >  0 ){
-      // loRaSendMints(sendOut,sizeInBytes,5,portIn); 
+      loRaSendMints(sendOut,sizeInBytes,5,portIn); 
     }
 
 }
@@ -478,7 +458,7 @@ void resetIPS7100Mints(uint32_t secondsIn){
   SerialUSB.println("Resetting IPS7100");
   for (uint16_t  cT = 1 ;cT<secondsIn ; cT++){
     ips_sensor.update();
-    delay(1000);
+    delay(1010);
   } 
 }
 
