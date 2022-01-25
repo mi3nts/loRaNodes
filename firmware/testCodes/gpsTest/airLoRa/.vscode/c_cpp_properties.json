@@ -1,0 +1,112 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/include",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/src",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/devicesMints",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/IpsI2C",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/TinyGPS++",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/MutichannelGasSensor",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/loRaMints",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/LoRaWan",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/jobsMints",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Adafruit INA219",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Adafruit BusIO",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SPI",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/SparkFun SCD30 Arduino Library/src",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Grove - Barometer Sensor BME280",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/Wire",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/cores/arduino/api/deprecated",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/cores/arduino/api/deprecated-avr-comp",
+                "C:/Users/lakit/.platformio/packages/framework-cmsis/CMSIS/Include",
+                "C:/Users/lakit/.platformio/packages/framework-cmsis-atmel/CMSIS/Device/ATMEL",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/cores/arduino",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/variants/arduino_zero",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Adafruit GFX Library",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Adafruit NeoPixel",
+                "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Adafruit SSD1306",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/HID",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/I2S/src",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SAMD_AnalogCorrection/src",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SAMD_BootloaderUpdater/src",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SBU/src",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SDU/src",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SFU/src",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SNU/src",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SSU/src",
+                "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/USBHost/src",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/include",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/src",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/devicesMints",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/IpsI2C",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/TinyGPS++",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/MutichannelGasSensor",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/loRaMints",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/LoRaWan",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/lib/jobsMints",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Adafruit INA219",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Adafruit BusIO",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SPI",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/SparkFun SCD30 Arduino Library/src",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Grove - Barometer Sensor BME280",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/Wire",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/cores/arduino/api/deprecated",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/cores/arduino/api/deprecated-avr-comp",
+                    "C:/Users/lakit/.platformio/packages/framework-cmsis/CMSIS/Include",
+                    "C:/Users/lakit/.platformio/packages/framework-cmsis-atmel/CMSIS/Device/ATMEL",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/cores/arduino",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/variants/arduino_zero",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Adafruit GFX Library",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Adafruit NeoPixel",
+                    "D:/githubRepos/loRaNodes/firmware/testCodes/gpsTest/airLoRa/.pio/libdeps/seeeduino_lorawan/Adafruit SSD1306",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/HID",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/I2S/src",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SAMD_AnalogCorrection/src",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SAMD_BootloaderUpdater/src",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SBU/src",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SDU/src",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SFU/src",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SNU/src",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/SSU/src",
+                    "C:/Users/lakit/.platformio/packages/framework-arduino-samd/libraries/USBHost/src",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=50203",
+                "ARDUINO_SAMD_ZERO",
+                "__SAMD21G18A__",
+                "ARDUINO=10805",
+                "F_CPU=48000000L",
+                "USBCON",
+                "USB_VID=0x2341",
+                "USB_PID=0x804D",
+                "USB_PRODUCT=\"Seeeduino LoRaWAN\"",
+                "USB_MANUFACTURER=\"Seeed\"",
+                "ARDUINO_ARCH_SAMD",
+                ""
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "compilerPath": "C:/Users/lakit/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc.exe",
+            "compilerArgs": [
+                "-mcpu=cortex-m0plus",
+                "-mthumb",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,25 @@
+{
+    "authors": {
+        "name": "Shigeru Fujiwara",
+        "url": "https://os.mbed.com/users/aoba/"
+    },
+    "build": {
+        "builder": "MbedLibBuilder"
+    },
+    "description": "A port of Mikal Hart's TinyGPS++ version 1.0.2 to mbed.",
+    "examples": [
+        "https://os.mbed.com/users/aoba/code/TinyGPSPlus-example/",
+        "https://os.mbed.com/users/Luka_Danilovic/code/PROJ515_GPS/",
+        "https://os.mbed.com/users/Luka_Danilovic/code/PROJ515_USS_GPS/",
+        "https://os.mbed.com/users/frank_dunn1/code/example-ttn-workshop/"
+    ],
+    "frameworks": "mbed",
+    "keywords": [],
+    "name": "TinyGPSPlus",
+    "platforms": "*",
+    "repository": {
+        "type": "hg",
+        "url": "https://os.mbed.com/users/aoba/code/TinyGPSPlus/"
+    },
+    "version": "0.0.0+sha.6d3813637f20"
+}
