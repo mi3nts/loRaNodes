@@ -5,7 +5,7 @@
 #include "LoRaWan.h"
 
 // ADD LORA APP KEY HERE 
-char* keyIn = "3A2F859628AED2A6ABF7159999CF4F3C";
+char* keyIn = "912F891628AED2A6ABF7159999CF4F3C";
 
 uint8_t numOfTries = 20; 
 uint8_t numOfCycles = 0; 

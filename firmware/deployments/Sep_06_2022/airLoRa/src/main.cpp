@@ -5,7 +5,7 @@
 #include "LoRaWan.h"
 
 // ADD LORA APP KEY HERE 
-char* keyIn = "3A2F859628AED2A6ABF7159999CF4F3C";
+char* keyIn = "912F891628AED2A6ABF7159999CF4F3C";
 
 uint8_t numOfTries = 20; 
 uint8_t numOfCycles = 0; 
@@ -125,15 +125,21 @@ void loop()
       }
      
 
-    // initial = false; 
+    initial = false; 
 
-    
     // At this point no matter what the sensor needs to reboot
     // This is to allow long distance 
     // Communications
     // Furthermore a 10 second delaybetween data packets were added 
 
     rebootBoard(rebootPin);
+        delay(10000); 
+    rebootBoard(rebootPin);
+        delay(10000); 
+    rebootBoard(rebootPin);
+        delay(10000); 
+    rebootBoard(rebootPin);
+        delay(10000); 
 
     // checkRebootCycle(powerMode,rebootPin,numOfCycles);
 }
