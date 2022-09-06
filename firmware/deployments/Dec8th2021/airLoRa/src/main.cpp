@@ -5,7 +5,7 @@
 #include "LoRaWan.h"
 
 // ADD LORA APP KEY HERE 
-char* keyIn = "64E100783142A77641633FE848933FFE";
+char* keyIn = "3A2F859628AED2A6ABF7159999CF4F3C";
 
 uint8_t numOfTries = 20; 
 uint8_t numOfCycles = 0; 
@@ -59,7 +59,10 @@ void setup()
   delay(10000);
   INA219DuoOnline =  initializeINA219DuoMints();
   powerMode       =  getPowerMode(rebootPin);
-
+  SerialUSB.print("");
+  SerialUSB.print("Power Mode: ");
+  SerialUSB.println(powerMode);
+  
   INA219DuoPeriod  = getPeriod(powerMode, "INA219Duo");
 
   loraInitMints(keyIn,powerMode,rebootPin);
@@ -83,7 +86,9 @@ void setup()
   SerialUSB.println(powerMode);
 
   resetIPS7100Mints(IPS7100ResetTime);
+  SerialUSB.print("Test 1: ");
   resetLoRaMints(numOfTries,powerMode);
+  SerialUSB.print("Test 2: ");
   delay(5000);
 }
 

@@ -27,7 +27,6 @@ void loraInitMints(char* keyIn)
   SerialUSB.println("Network Settings:");
   lora.setDeciveMode(LWOTAA);
   lora.setDataRate(DR3, US915);
-  
   lora.setChannel(0, 913.5);
   lora.setChannel(1, 913.7);
   lora.setChannel(2, 913.9);

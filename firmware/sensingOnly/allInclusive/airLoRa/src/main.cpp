@@ -5,7 +5,7 @@
 #include "LoRaWan.h"
 
 // ADD LORA APP KEY HERE 
- char* keyIn = "24C14358B8C582751E79D91F5717E4B8";
+ char* keyIn = "BA2C989028ABC216FBB7159909CE3F34";
 
 uint8_t numOfTries = 20; 
 
@@ -61,7 +61,7 @@ void setup()
 
   INA219DuoPeriod  = getPeriod(powerMode, "INA219Duo");
 
-  // loraInitMints(keyIn);
+  loraInitMints(keyIn);
 
   GPGGALROnline  = initializeGPGGALRMints();
   GPGGALRPeriod  = getPeriod(powerMode, "GPGGALR");
@@ -74,15 +74,15 @@ void setup()
   SerialUSB.print("BME Period: ");
   SerialUSB.println(BME280Period);
 
-  // SCD30Online   =  initializeSCD30Mints(SCD30ReadTime);
-  // SCD30Period  = getPeriod(powerMode, "SCD30");
-  // SerialUSB.print("SCD Period: ");
-  // SerialUSB.println(SCD30Period);
+  SCD30Online   =  initializeSCD30Mints(SCD30ReadTime);
+  SCD30Period  = getPeriod(powerMode, "SCD30");
+  SerialUSB.print("SCD Period: ");
+  SerialUSB.println(SCD30Period);
 
-  // MGS001Online  =  initializeMGS001Mints();
-  // MGS001Period  = getPeriod(powerMode, "MGS001");
-  // SerialUSB.print("MGS Period: ");
-  // SerialUSB.println(MGS001Period);
+  MGS001Online  =  initializeMGS001Mints();
+  MGS001Period  = getPeriod(powerMode, "MGS001");
+  SerialUSB.print("MGS Period: ");
+  SerialUSB.println(MGS001Period);
 
   IPS7100Online =  initializeIPS7100Mints();
   IPS7100Period  = getPeriod(powerMode, "IPS7100");
@@ -96,34 +96,46 @@ void setup()
 
 void loop()
 {        
-           if(readNow(IPS7100Online,IPS7100Time,IPS7100Period,initial))
+           if(IPS7100Online)
       {
         readIPS7100MintsMax();
         IPS7100Time  = millis();
-        delay(5000);
+        delay(2000);
       }
-      if(readNow(BME280Online,BME280Time,BME280Period,initial))
+      if(BME280Online)
       { 
         readBME280MintsMax();
         BME280Time  = millis();
-        delay(5000);
+        delay(2000);
       }
-      if(readNow(GPGGALROnline,GPGGALRTime,GPGGALRPeriod,initial))
+      if(SCD30Online)
+      { 
+        readSCD30MintsMax();
+        SCD30Time  = millis();
+        delay(2000);
+      }
+      if(MGS001Online)
+      { 
+        readBME280MintsMax();
+        MGS001Time  = millis();
+        delay(2000);
+      }
+      if(GPGGALROnline)
       { 
         readGPGGALRMintsMax();
         GPGGALRTime  = millis();
-        delay(5000); 
+        delay(2000); 
       }
-      if(readNow(INA219DuoOnline,INA219DuoTime,INA219DuoPeriod,initial))
+      if(INA219DuoOnline)
       { 
         readINA219DuoMintsMax();
         INA219DuoTime  = millis();
-         delay(5000); 
+         delay(2000); 
       }
 
 
 
-  checkReboot(powerMode,rebootPin);
+  // checkReboot(powerMode,rebootPin);
 
 }
 

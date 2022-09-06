@@ -172,7 +172,7 @@ void rebootBoard(uint8_t rebootPin){
     delay(1);
     digitalWrite(rebootPin, LOW);
     delay(1);
-    delay(1000000);
+    // delay(1000000);
 }
 
 bool readNow(bool sensorOnline,uint32_t startIn,uint32_t periodIn,bool initialIn){
@@ -190,8 +190,6 @@ void checkReboot(uint8_t powerModeIn,uint8_t rebootPinIn){
   if((powerModeIn == 2) && (millis() > 300000) ){
     rebootBoard(rebootPinIn); // Halt the board in the day after 5 minutes
   }
-
-  
 }
 
 void checkRebootCycle(uint8_t powerModeIn,uint8_t rebootPinIn,uint8_t numOfCycles){
@@ -222,7 +220,6 @@ void checkRebootCycle(uint8_t powerModeIn,uint8_t rebootPinIn,uint8_t numOfCycle
     rebootBoard(rebootPinIn); // Halt the board after 2 cycles
   }
   if((powerModeIn == 7) && (numOfCycles >1))
-  
   {    
     rebootBoard(rebootPinIn); // Halt the board after 2 cycles
   }

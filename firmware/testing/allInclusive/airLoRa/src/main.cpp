@@ -5,7 +5,7 @@
 #include "LoRaWan.h"
 
 // ADD LORA APP KEY HERE 
-char* keyIn = "24C14358B8C582751E79D91F5717E4B8";
+char* keyIn = "BA2C989028ABC216FBB7159909CE3F34";
 
 uint8_t numOfTries = 20; 
 
@@ -98,52 +98,57 @@ void setup()
 
 void loop()
 {
-       if(readNow(INA219DuoOnline,INA219DuoTime,INA219DuoPeriod))
-      { 
+      //  if(readNow(INA219DuoOnline,INA219DuoTime,INA219DuoPeriod))
+     if(INA219DuoOnline){ 
         readINA219DuoMintsMax();
         INA219DuoTime  = millis();
         // delay(2500); 
-      }
+       }
 
 
-      if(readNow(IPS7100Online,IPS7100Time,IPS7100Period))
-      {
+      // if(readNow(IPS7100Online,IPS7100Time,IPS7100Period))
+      if(IPS7100Online){
         readIPS7100MintsMax();
         IPS7100Time  = millis();
-        // delay(2500);
       }
 
 
-    if(readNow(BME280Online,BME280Time,BME280Period))
-      { 
+    // if(readNow(BME280Online,BME280Time,BME280Period))
+    //   { 
+      if(BME280Online){
         readBME280MintsMax();
         BME280Time  = millis();
-        // delay(2500);
-      }
+      
+       }
       
 
-      if(readNow(SCD30Online,SCD30Time,SCD30Period))
-      { 
+      // if(readNow(SCD30Online,SCD30Time,SCD30Period))
+      // { 
+        if(SCD30Online){
         readSCD30MintsMax();
         SCD30Time  = millis();
-        // delay(2500);
-        }
+        
+         }
       
 
-      if(readNow(IPS7100Online,IPS7100Time,IPS7100Period))
-      {
+      // if(readNow(IPS7100Online,IPS7100Time,IPS7100Period))
+      // {
+        if(IPS7100Online){
         readIPS7100MintsMax();
         IPS7100Time  = millis();
+        }
         // delay(2500);
-      }
+      // }
 
 
-      if(readNow(BME280Online,BME280Time,BME280Period))
-      { 
-        readBME280MintsMax();
-        BME280Time  = millis();
+      // if(readNow(BME280Online,BME280Time,BME280Period))
+      // { 
+        if(BME280Online){
+          readBME280MintsMax();
+          BME280Time  = millis();
+        }
         // delay(2500);
-      }
+      // }
       
       if(readNow(MGS001Online,MGS001Time,MGS001Period))
       { 
@@ -160,7 +165,7 @@ void loop()
       }
 
 
-  checkReboot(powerMode,rebootPin);
+  // checkReboot(powerMode,rebootPin);
 
 }
 
